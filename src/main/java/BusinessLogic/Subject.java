@@ -1,4 +1,5 @@
 package main.java.BusinessLogic;
 
-public class Subject {
+public interface Subject {
+
 }
