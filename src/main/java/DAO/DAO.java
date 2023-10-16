@@ -1,10 +1,11 @@
 package main.java.DAO;
 import main.java.DomainModel.Field;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface DAO<T> {
-    public T get(int id);
+    public T get(int id) throws SQLException;
 
     public List<T> getAll();
 
