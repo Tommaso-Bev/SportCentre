@@ -1,4 +1,6 @@
 package main.java.DAO;
+import main.java.DomainModel.Field;
+
 import java.util.List;
 
 public interface DAO<T> {
@@ -13,4 +15,5 @@ public interface DAO<T> {
     public void remove(T t);
 
     public int assignID();
+
 }

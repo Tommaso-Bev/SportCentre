@@ -1,4 +1,6 @@
 package main.java.DAO;
 
-public class BookingDAO {
+import main.java.DomainModel.Booking;
+
+public class BookingDAO{
 }
