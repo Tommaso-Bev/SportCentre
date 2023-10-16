@@ -9,8 +9,7 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE IF NOT EXISTS sportsCentres(
     ID INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
-    houseNumber TEXT NOT NULL,
-    flat TEXT,
+    address TEXT NOT NULL,
     CAP TEXT NOT NULL,
     type TEXT NOT NULL
 );

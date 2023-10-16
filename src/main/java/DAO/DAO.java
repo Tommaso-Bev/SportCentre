@@ -2,14 +2,15 @@ package main.java.DAO;
 import main.java.DomainModel.Field;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public interface DAO<T> {
     public T get(int id) throws SQLException;
 
-    public List<T> getAll();
+    public ArrayList<T> getAll() throws SQLException;
 
-    public void save(T t);
+    public void save(T t) throws SQLException;
 
     public void modify(T t, T[] args);
 

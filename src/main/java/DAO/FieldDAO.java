@@ -2,6 +2,7 @@ package main.java.DAO;
 import main.java.DomainModel.Field;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FieldDAO implements DAO<Field>{
@@ -22,7 +23,7 @@ public class FieldDAO implements DAO<Field>{
     }
 
     @Override
-    public List<Field> getAll() {
+    public ArrayList<Field> getAll() {
         return null;
     }
 
