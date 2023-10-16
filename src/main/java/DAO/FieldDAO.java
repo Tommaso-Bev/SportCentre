@@ -33,19 +33,15 @@ public class FieldDAO implements DAO<Field>{
     }
 
     @Override
-    public void modify(Field field, Field[] args) {
+    public void modify(Field field, String[] args) {
 
     }
 
     @Override
-    public void remove(Field field) {
+    public void remove(int id) {
 
     }
 
-    @Override
-    public int assignID() {
-        return 0;
-    }
 
 
 }

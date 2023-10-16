@@ -12,10 +12,9 @@ public interface DAO<T> {
 
     public void save(T t) throws SQLException;
 
-    public void modify(T t, T[] args);
+    public void modify(T t, String[] args) throws SQLException;
 
-    public void remove(T t);
+    public void remove(int id) throws SQLException;
 
-    public int assignID();
 
 }

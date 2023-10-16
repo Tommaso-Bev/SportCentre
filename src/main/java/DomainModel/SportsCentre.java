@@ -30,4 +30,8 @@ public class SportsCentre {
     public String getAddress() {
         return address;
     }
+
+    public int getId() {
+        return ID;
+    }
 }

@@ -3,7 +3,7 @@ import main.java.DomainModel.SportsCentre;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class SportsCentreDAO implements DAO<SportsCentre> {
 
@@ -33,7 +33,7 @@ public class SportsCentreDAO implements DAO<SportsCentre> {
         ResultSet rs = ps.executeQuery();
         while(rs.next())
         {
-            sportsCentres.add(new SportsCentre(rs.getInt("id"),rs.getString("name"),rs.getString("address"),rs.getString("CAP"),rs.getString("type")));
+            sportsCentres.add(new SportsCentre(rs.getInt("ID"),rs.getString("name"),rs.getString("address"),rs.getString("CAP"),rs.getString("type")));
         }
         rs.close();
         ps.close();
@@ -55,18 +55,47 @@ public class SportsCentreDAO implements DAO<SportsCentre> {
         connection.close();
     }
 
-    @Override
-    public void modify(SportsCentre sportsCentre, SportsCentre[] args) {
 
+    @Override
+    public void modify(SportsCentre sportsCentre, String[] args) throws SQLException {
+        Connection connection= DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        PreparedStatement ps = connection.prepareStatement("UPDATE sportsCentres SET name = ?, address = ?, CAP = ?, type = ? WHERE ID = ?");
+        ps.setString(1, args[0]);
+        ps.setString(2, args[1]);
+        ps.setString(3, args[2]);
+        ps.setString(4, args[3]);
+        ps.setInt(5, sportsCentre.getId());
+        ps.executeUpdate();
+        ps.close();
+        connection.close();
     }
 
     @Override
-    public void remove(SportsCentre sportsCentre) {
-
+    public void remove(int id) throws SQLException {
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        PreparedStatement ps = connection.prepareStatement("DELETE FROM sportsCentres WHERE ID = ?");
+        ps.setInt(1, id);
+        ps.executeUpdate();
+        ps.close();
+        connection.close();
     }
 
-    @Override
-    public int assignID() {
-        return 0;
+    private int getNextId() throws SQLException {
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        String query = "SELECT MAX(ID) FROM sportsCentres";
+        PreparedStatement statement = connection.prepareStatement(query);
+        ResultSet rs = statement.executeQuery();
+        int id; //TODO check if it works
+        if(rs.next()){
+            id = rs.getInt(1) + 1;
+        }else {
+            id=1;
+        }
+
+        rs.close();
+        statement.close();
+        connection.close();
+        return id;
     }
+
 }
