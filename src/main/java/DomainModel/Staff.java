@@ -32,4 +32,5 @@ public class Staff extends Person {
     public SportsCentre getSportsCentre() {
         return sportsCentre;
     }
+
 }

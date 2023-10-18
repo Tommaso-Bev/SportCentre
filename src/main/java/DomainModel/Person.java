@@ -17,6 +17,10 @@ public abstract class Person {
         this.ID = ID;
     }
 
+    public int getID() {
+        return ID;
+    }
+
     public String getName() {
         return name;
     }
@@ -28,4 +32,5 @@ public abstract class Person {
     public String getCodFisc() {
         return codFisc;
     }
+
 }
