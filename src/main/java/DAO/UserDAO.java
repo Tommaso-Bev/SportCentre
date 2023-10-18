@@ -65,13 +65,12 @@ public class UserDAO implements DAO<User> {
     @Override
     public void modify(User user, String[] args) throws SQLException {
         Connection connection= DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
-        PreparedStatement ps = connection.prepareStatement("UPDATE fields SET sport = ?, minimumPeopleRequired = ?, maximumPeopleRequired = ?,fineph = ?,availability = ?   WHERE ID = ?");
+        PreparedStatement ps = connection.prepareStatement("UPDATE users SET codFisc = ?, firstName = ?, surname = ?,inscriptionDate = ?,membershipsName = ?   WHERE ID = ?");
         ps.setString(1, args[0]);
-        ps.setInt(2, Integer.parseInt(args[1]));
-        ps.setInt(3, Integer.parseInt(args[2]));
-        ps.setInt(4, Integer.parseInt(args[3]));
-        ps.setInt(5, Integer.parseInt(args[4]));
-        ps.setInt(6, field.getId());
+        ps.setString(2, args[1]);
+        ps.setString(3, args[2]);
+        ps.setString(4, args[3]);
+        ps.setString(5, args[4]);
         ps.executeUpdate();
         ps.close();
         connection.close();
@@ -80,7 +79,7 @@ public class UserDAO implements DAO<User> {
     @Override
     public void remove(int id) throws SQLException {
         Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
-        PreparedStatement ps = connection.prepareStatement("DELETE FROM fields WHERE ID = ?");
+        PreparedStatement ps = connection.prepareStatement("DELETE FROM users WHERE ID = ?");
         ps.setInt(1, id);
         ps.executeUpdate();
         ps.close();
