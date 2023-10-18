@@ -17,11 +17,15 @@ public abstract class Person {
         this.ID = ID;
     }
 
-    protected String getName() {
+    public String getName() {
         return name;
     }
 
-    protected String getSurname() {
+    public String getSurname() {
         return surname;
+    }
+
+    public String getCodFisc() {
+        return codFisc;
     }
 }

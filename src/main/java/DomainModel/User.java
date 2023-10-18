@@ -8,9 +8,10 @@ import java.time.LocalDate;
 public class User extends Person implements Observer {
     private LocalDate inscriptionDate;
     private Membership membership;
-
-    public User(int ID, String fiscalCod, String name, String surname){
-        super(ID,fiscalCod,name,surname);
+    public User(int ID, String fiscalCod, String name, String surname, LocalDate inscriptionDate, Membership membership) {
+        super(ID, fiscalCod, name, surname);
+        this.inscriptionDate = inscriptionDate;
+        this.membership = membership;
     }
 
     @Override
@@ -18,9 +19,11 @@ public class User extends Person implements Observer {
         System.out.println("User " + this.getName() + " " + this.getSurname() + " has been notified of the lesson cancellation");
     }
 
-    public void setMembership(Membership membership) {
-        this.membership = membership;
+    public String getInscriptionDate() {
+        return inscriptionDate.toString();
     }
 
-
+    public String getMembershipName() {
+        return membership.getName;
+    }
 }
