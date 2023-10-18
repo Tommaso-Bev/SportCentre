@@ -7,7 +7,30 @@ public class Staff extends Person {
     private String task;
     private int salary;
 
-    public Staff(int ID, String fiscalCod, String name, String surname) {
+    private SportsCentre sportsCentre;
+
+    public Staff(int ID, String fiscalCod, String name, String surname, LocalDate hiringDate, String task, int salary, SportsCentre sportsCentre) {
         super(ID, fiscalCod, name, surname);
+        this.hiringDate = hiringDate;
+        this.task = task;
+        this.salary = salary;
+        this.sportsCentre=sportsCentre;
     }
+
+    public LocalDate getHiringDate() {
+        return hiringDate;
+    }
+
+    public String getTask() {
+        return task;
+    }
+
+    public int getSalary() {
+        return salary;
+    }
+
+    public SportsCentre getSportsCentre() {
+        return sportsCentre;
+    }
+
 }

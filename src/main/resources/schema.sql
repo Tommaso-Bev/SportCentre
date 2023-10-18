@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS users(
     codFisc TEXT NOT NULL,
     firstName TEXT NOT NULL,
     surname TEXT NOT NULL,
-    iscriptionDate TEXT NOT NULL,
+    inscriptionDate TEXT NOT NULL,
     membershipsName TEXT NOT NULL,
     FOREIGN KEY (membershipsName) REFERENCES memberships(name) ON UPDATE CASCADE
 );
