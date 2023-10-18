@@ -105,16 +105,16 @@ public class BookingDAO implements DAO<Booking>{
     }
     public boolean avaiableField(int fieldID) throws SQLException{
         Connection connection=DriverManager.getConnection("jdbc:sqlite:"+"sportCentre.sqlite");
-        PreparedStatement ps= connection.prepareStatement("SELECT availability FROM fields WHERE ID=?");
+        PreparedStatement ps= connection.prepareStatement("SELECT * FROM bookings WHERE field=?");
         ps.setInt(1,fieldID);
         ResultSet rs=ps.executeQuery();
-        boolean availability=false;
+        boolean av =false;
         if(rs.next()){
-            availability=rs.getBoolean(1);
+            av=rs.getBoolean(1);
         }
         ps.close();
         connection.close();
-        return availability;
+        return av;
     }
     public ArrayList<Booking> getBookingForMeber(int meberID) throws SQLException{
         Connection connection=DriverManager.getConnection("jdbc:sqlite:"+"sportCentre.sqlite");
