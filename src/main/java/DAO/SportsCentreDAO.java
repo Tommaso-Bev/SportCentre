@@ -80,7 +80,8 @@ public class SportsCentreDAO implements DAO<SportsCentre> {
         connection.close();
     }
 
-    private int getNextId() throws SQLException {
+    @Override
+    public int getNextId() throws SQLException {
         Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
         String query = "SELECT MAX(ID) FROM sportsCentres";
         PreparedStatement statement = connection.prepareStatement(query);

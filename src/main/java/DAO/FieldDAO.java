@@ -87,7 +87,8 @@ public class FieldDAO implements DAO<Field>{
         connection.close();
     }
 
-    private int getNextId() throws SQLException {
+    @Override
+    public int getNextId() throws SQLException {
         Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
         String query = "SELECT MAX(ID) FROM fields";
         PreparedStatement statement = connection.prepareStatement(query);
