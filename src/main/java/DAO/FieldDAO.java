@@ -6,6 +6,12 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class FieldDAO implements DAO<Field>{
+    SportsCentreDAO sportsCentreDAO;
+    public FieldDAO(SportsCentreDAO sportsCentreDAO){
+        this.sportsCentreDAO=sportsCentreDAO;
+    }
+
+
     @Override
     public Field get(int id) throws SQLException {
         Connection connection= DriverManager.getConnection("jdbc:sqlite:"+"sportCentre.sqlite");
@@ -14,7 +20,7 @@ public class FieldDAO implements DAO<Field>{
         prepStat.setInt(1, id);
         ResultSet resSet=prepStat.executeQuery();
         if (resSet.next()){
-            field= new Field(id, resSet.getString("sport"), resSet.getInt("minimumPeopleRequired"), resSet.getInt("maximumPeopleRequired"), resSet.getInt("fineph"), resSet.getBoolean("availability"),resSet.getInt("sportCentre") );
+            field= new Field(id, resSet.getString("sport"), resSet.getInt("minimumPeopleRequired"), resSet.getInt("maximumPeopleRequired"), resSet.getInt("fineph"), resSet.getBoolean("availability"),sportsCentreDAO.get(resSet.getInt("sportCentre")) );
         }
         resSet.close();
         prepStat.close();
@@ -30,7 +36,7 @@ public class FieldDAO implements DAO<Field>{
         ResultSet rs = ps.executeQuery();
         while(rs.next())
         {
-            fields.add(new Field(rs.getInt("ID"),rs.getString("sport"),rs.getInt("minimumPeopleRequired"),rs.getInt("maximumPeopleRequired"),rs.getInt("fineph"),rs.getBoolean("availability"),rs.getInt("sportCentre")));
+            fields.add(new Field(rs.getInt("ID"),rs.getString("sport"),rs.getInt("minimumPeopleRequired"),rs.getInt("maximumPeopleRequired"),rs.getInt("fineph"),rs.getBoolean("availability"),sportsCentreDAO.get(rs.getInt("sportCentre"))));
         }
         rs.close();
         ps.close();
