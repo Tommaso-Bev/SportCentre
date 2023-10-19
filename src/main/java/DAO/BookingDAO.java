@@ -1,9 +1,6 @@
 package main.java.DAO;
 import main.java.DomainModel.Booking;
-import main.java.DomainModel.SportsCentre;
-import main.java.DomainModel.Booking;
 
-import java.awt.print.Book;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -103,7 +100,7 @@ public class BookingDAO implements DAO<Booking>{
         connection.close();
         return id;
     }
-    public boolean avaiableField(int fieldID) throws SQLException{
+    public boolean availableField(int fieldID) throws SQLException{
         Connection connection=DriverManager.getConnection("jdbc:sqlite:"+"sportCentre.sqlite");
         PreparedStatement ps= connection.prepareStatement("SELECT * FROM bookings WHERE field=?");
         ps.setInt(1,fieldID);
@@ -116,7 +113,7 @@ public class BookingDAO implements DAO<Booking>{
         connection.close();
         return av;
     }
-    public ArrayList<Booking> getBookingForMeber(int meberID) throws SQLException{
+    public ArrayList<Booking> getBookingForMember(int meberID) throws SQLException{
         Connection connection=DriverManager.getConnection("jdbc:sqlite:"+"sportCentre.sqlite");
         PreparedStatement ps= connection.prepareStatement("SELECT * FROM bookings WHERE users=? ");
         ps.setInt(1,meberID);
@@ -158,7 +155,7 @@ public class BookingDAO implements DAO<Booking>{
         connection.close();
         return bookings;
     }
-    public ArrayList<Booking> getBookingForDateandTime(LocalDate ld,LocalTime time) throws SQLException{
+    public ArrayList<Booking> getBookingForDateAndTime(LocalDate ld,LocalTime time) throws SQLException{
         Connection connection=DriverManager.getConnection("jdbc:sqlite:"+"sportCentre.sqlite");
         PreparedStatement ps= connection.prepareStatement("SELECT * FROM bookings WHERE date=? AND time=?  ");
         ps.setString(1,ld.toString());
