@@ -1,7 +1,6 @@
 package main.java.DAO;
 
-import main.java.DomainModel.Field;
-import main.java.DomainModel.SportsCentre;
+
 import main.java.DomainModel.Staff;
 
 import java.sql.*;
@@ -9,7 +8,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class StaffDAO implements DAO<Staff> {
-    private SportsCentreDAO sportsCentreDAO;
+    public StaffDAO(SportsCentreDAO sportsCentreDAO) {
+        this.sportsCentreDAO = sportsCentreDAO;
+    }
+
+    private SportsCentreDAO sportsCentreDAO ;
     public Staff get(int id) throws SQLException {
         Connection connection= DriverManager.getConnection("jdbc:sqlite:"+"sportCentre.sqlite");
         Staff staff=null;
