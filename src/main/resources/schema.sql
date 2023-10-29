@@ -30,11 +30,11 @@ CREATE TABLE IF NOT EXISTS staff(
 -- Table: memberships
 CREATE TABLE IF NOT EXISTS memberships(
     name TEXT PRIMARY KEY,
-    cost INTEGER NOT NULL,
+    cost REAL NOT NULL,
     description TEXT NOT NULL,
     expirationDate TEXT NOT NULL,
-    timeBeforeReserve TEXT NOT NULL,
-    timeBeforeDelete TEXT NOT NULL
+    timeBeforeReserve INTEGER NOT NULL,
+    timeBeforeDelete INTEGER NOT NULL
 );
 
 -- Table: users

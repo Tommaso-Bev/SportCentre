@@ -21,7 +21,7 @@ public class UserDAO implements DAO<User> {
         prepStat.setInt(1, id);
         ResultSet rs=prepStat.executeQuery();
         if (rs.next()){
-            user= new Field(id, rs.getString("codFisc"), rs.getString("firstName"), rs.getString("surname"), LocalDate.parse(rs.getString("inscriptionDate")) ,membershipDAO.get(rs.getString("membershipsName")) );
+            user= new User(id, rs.getString("codFisc"), rs.getString("firstName"), rs.getString("surname"), LocalDate.parse(rs.getString("inscriptionDate")) ,membershipDAO.get(rs.getString("membershipsName")) );
         }
         rs.close();
         prepStat.close();
@@ -37,7 +37,7 @@ public class UserDAO implements DAO<User> {
         ResultSet rs = ps.executeQuery();
         while(rs.next())
         {
-            users.add(new Field(rs.getInt("ID"),rs.getString("codFisc"), rs.getString("firstName"), rs.getString("surname"),LocalDate.parse(rs.getString("inscriptionDate")) ,membershipDAO.get(rs.getString("membershipsName"))));
+            users.add(new User(rs.getInt("ID"), rs.getString("codFisc"), rs.getString("firstName"), rs.getString("surname"),LocalDate.parse(rs.getString("inscriptionDate")) ,membershipDAO.get(rs.getString("membershipsName"))));
         }
         rs.close();
         ps.close();

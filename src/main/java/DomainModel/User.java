@@ -24,6 +24,6 @@ public class User extends Person implements Observer {
     }
 
     public String getMembershipName() {
-        return membership.getName;
+        return membership.getType();
     }
 }
