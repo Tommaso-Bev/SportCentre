@@ -4,6 +4,7 @@ public class Basic extends DecoratorMembership {
 
     public Basic(Membership membership) {
         super(membership);
+        super.setSubscription();
     }
 
     @Override
@@ -19,7 +20,7 @@ public class Basic extends DecoratorMembership {
     @Override
     public int getTimeBeforeDelete() {
         return 1000;
-    }
+    }//TODO put the correct amount for all the returns
 
     @Override
     public float getCost() {
