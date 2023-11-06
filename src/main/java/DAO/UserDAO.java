@@ -50,7 +50,7 @@ public class UserDAO implements DAO<User> {
     public void save(User user) throws SQLException {
         Connection connection= DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
         PreparedStatement ps = connection.prepareStatement("INSERT INTO users (ID,codFisc,firstName,surname,inscriptionDate,membershipsName) VALUES (?, ?, ?, ?, ?, ?)");
-        ps.setInt(1,getNextId());
+        ps.setInt(1,user.getID());
         ps.setString(2, user.getCodFisc());
         ps.setString(3, user.getName());
         ps.setString(4, user.getSurname());
