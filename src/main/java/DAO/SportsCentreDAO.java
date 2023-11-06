@@ -45,7 +45,7 @@ public class SportsCentreDAO implements DAO<SportsCentre> {
     public void save(SportsCentre sportsCentre) throws SQLException {
         Connection connection= DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
         PreparedStatement ps = connection.prepareStatement("INSERT INTO sportsCentres (ID, name, address, CAP, type) VALUES (?, ?, ?, ?, ?)");
-        ps.setInt(1,getNextId());
+        ps.setInt(1,sportsCentre.getId());
         ps.setString(2, sportsCentre.getName());
         ps.setString(3, sportsCentre.getAddress());
         ps.setString(4, sportsCentre.getCAP());

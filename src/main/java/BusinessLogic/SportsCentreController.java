@@ -14,8 +14,8 @@ public class SportsCentreController {
         this.std = std;
     }
 
-    public void createCentre(int id, String name, String address, String CAP, String type) throws SQLException {
-        SportsCentre s = new SportsCentre(id, name, address, CAP, type);
+    public void createCentre(String name, String address, String CAP, String type) throws SQLException {
+        SportsCentre s = new SportsCentre(sd.getNextId(), name, address, CAP, type);
         sd.save(s);
     }
 
