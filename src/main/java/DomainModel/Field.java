@@ -8,18 +8,8 @@ public class Field {
         this.maximumPeopleRequired = maximumPeopleRequired;
         this.fineph = fineph;
         this.availability = availability;
-        this.centre=centre;
+        this.centre = centre;
     }
-
-
-    private int ID;
-    private String sport;
-    private int minimumPeopleRequired;
-    private int maximumPeopleRequired;
-    private int fineph;
-
-    private SportsCentre centre;
-    private boolean availability;
 
     public String getSport() {
         return sport;
@@ -49,4 +39,14 @@ public class Field {
     public int getId() {
         return ID;
     }
+
+
+    private int ID;
+    private String sport;
+    private int minimumPeopleRequired;
+    private int maximumPeopleRequired;
+    private int fineph;
+
+    private SportsCentre centre;
+    private boolean availability;
 }

@@ -49,7 +49,7 @@ public class FieldDAO implements DAO<Field>{
     public void save(Field field) throws SQLException {
         Connection connection= DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
         PreparedStatement ps = connection.prepareStatement("INSERT INTO fields (ID, sport, minimumPeopleRequired,maximumPeopleRequired, fineph, availability, sportCentre) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        ps.setInt(1,getNextId());
+        ps.setInt(1,field.getId());
         ps.setString(2, field.getSport());
         ps.setInt(3, field.getMinimumPeopleRequired());
         ps.setInt(4, field.getMaximumPeopleRequired());
@@ -58,6 +58,24 @@ public class FieldDAO implements DAO<Field>{
         ps.setInt(7, field.getSportCentre().getId());
         ps.executeUpdate();
         ps.close();
+        connection.close();
+    }
+
+    public void habilitateField(int id, boolean ab) throws SQLException {
+        Connection connection= DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        PreparedStatement preparedStatement=connection.prepareStatement("UPDATE  fields SET availability=? WHERE ID=?");
+        preparedStatement.setBoolean(1,ab);
+        preparedStatement.setInt(2,id);
+        preparedStatement.close();
+        connection.close();
+    }
+
+    public void setFine(int id, int f) throws SQLException {
+        Connection connection= DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        PreparedStatement preparedStatement=connection.prepareStatement("UPDATE  fields SET fineph=? WHERE ID=?");
+        preparedStatement.setInt(1,f);
+        preparedStatement.setInt(2,id);
+        preparedStatement.close();
         connection.close();
     }
 
