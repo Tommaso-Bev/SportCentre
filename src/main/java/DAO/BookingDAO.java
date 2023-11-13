@@ -5,6 +5,8 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Random;
+
 public class BookingDAO implements DAO<Booking>{
     SportsCentreDAO sportsCentreDAO;
     UserDAO userDAO;
@@ -44,7 +46,12 @@ public class BookingDAO implements DAO<Booking>{
         ResultSet resultSet=prepStat.executeQuery();
         if(resultSet.next()){
             booking=new Booking(id, LocalDate.parse(resultSet.getString("date")),getBookingCountById(id), LocalTime.parse(resultSet.getString("time")),userDAO.get(resultSet.getInt("users")),fieldDAO.get(resultSet.getInt("field")));
+            if (resultSet.getInt("payed")==0)
+                booking.setPayed(false);
+            else
+                booking.setPayed(true);
         }
+
         resultSet.close();
         prepStat.close();
         connection.close();
@@ -73,13 +80,15 @@ public class BookingDAO implements DAO<Booking>{
     public void save(Booking booking) throws SQLException {
         Connection connection= DriverManager.getConnection("jdbc:sqlite:"+"sportCentre.sqlite");
         float count =0;
+        Random random=new Random();
         while (count<booking.getPeriod()) {
-            PreparedStatement ps= connection.prepareStatement("INSERT INTO bookings(ID,date,time,users,field)VALUES (?,?,?,?,?)");
+            PreparedStatement ps= connection.prepareStatement("INSERT INTO bookings(ID,date,time,payed,users,field)VALUES (?,?,?,?,?,?)");
             ps.setInt(1,booking.getID());
             ps.setString(2, booking.getDate().toString());
             ps.setString(3,booking.getTime().plusHours((long) count).toString());
-            ps.setInt(4,booking.getUser().getID());
-            ps.setInt(5,booking.getField().getId());
+            ps.setInt(4,random.nextInt(0,1));
+            ps.setInt(5,booking.getUser().getID());
+            ps.setInt(6,booking.getField().getId());
             ps.executeQuery();
             ps.close();
             count++;

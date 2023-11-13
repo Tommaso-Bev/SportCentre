@@ -9,6 +9,8 @@ import main.java.DomainModel.User;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.sql.Date;
 
 public class BookingController {
     private BookingDAO bD;
@@ -44,4 +46,7 @@ public class BookingController {
     }
 
 
+    public ArrayList<Booking> getBookingsForDate(Date date) throws SQLException {
+        return bD.getBookingsForDate(date);
+    }
 }
