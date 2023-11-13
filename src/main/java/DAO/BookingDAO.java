@@ -89,7 +89,7 @@ public class BookingDAO implements DAO<Booking>{
     }
 
     @Override
-    public void modify(Booking booking,LocalTime time, String[] args) throws SQLException {
+    public void modify(Booking booking, String[] args) throws SQLException {
         Connection connection= DriverManager.getConnection("jdbc:sqlite:"+"sportCentre.sqlite");
         PreparedStatement ps= connection.prepareStatement("UPDATE bookings SET date=?,time=?, users=?, field=? WHERE ID=? AND time=?");
         ps.setString(1,args[0]);
@@ -97,7 +97,7 @@ public class BookingDAO implements DAO<Booking>{
         ps.setInt(3,Integer.parseInt(args[3]));
         ps.setInt(4,Integer.parseInt(args[4]));
         ps.setInt(5,booking.getID());
-        ps.setString(6,time.toString());
+        ps.setString(6,booking.getTime().toString());
         ps.executeQuery();
         ps.close();
         connection.close();

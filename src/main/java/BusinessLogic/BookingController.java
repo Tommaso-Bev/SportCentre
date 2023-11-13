@@ -24,7 +24,8 @@ public class BookingController {
     public void createBooking(int ID, LocalDate date, int period, LocalTime time, int IDField, int IDUser) throws SQLException {
         User user=uD.get(IDUser);
         if(user==null) throw new RuntimeException("The given user does not exist");
-        //TODO check if the field is available and if is available at that time and date
+        if(bD.availableFieldAtTimeAndDate(IDField, date, time)) { throw new IllegalArgumentException("Field is already booked at this time and date");}
+        if(!fD.get(IDField).getAvailability()) { throw new IllegalArgumentException("Field not available"); }
         Booking booking=new Booking(bD.getNextId(),date,period,time,user,fD.get(IDField));
         bD.save(booking);
     }
