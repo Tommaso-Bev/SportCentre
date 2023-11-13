@@ -23,12 +23,12 @@ public class Free implements Membership{
 
     @Override
     public int getTimeBeforeReserve() {
-        return 3; //days
+        return 2; //days
     }
 
     @Override
     public int getTimeBeforeDelete() {
-        return 48; //hours
+        return 2; //days
     }
 
     @Override

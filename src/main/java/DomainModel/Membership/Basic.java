@@ -14,12 +14,12 @@ public class Basic extends DecoratorMembership {
 
     @Override
     public int getTimeBeforeReserve() {
-        return 1000;
+        return 3;
     }
 
     @Override
     public int getTimeBeforeDelete() {
-        return 1000;
+        return 2;
     }//TODO put the correct amount for all the returns
 
     @Override

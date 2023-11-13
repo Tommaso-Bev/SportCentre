@@ -70,7 +70,8 @@ public class UserDAO implements DAO<User> {
         ps.setString(2, args[1]);
         ps.setString(3, args[2]);
         ps.setString(4, args[3]);
-        ps.setString(5, args[4]);
+        ps.setString(5,args[4]);
+        ps.setInt(6, user.getID());
         ps.executeUpdate();
         ps.close();
         connection.close();

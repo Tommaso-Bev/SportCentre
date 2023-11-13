@@ -26,6 +26,7 @@ public class BookingController {
     public void createBooking(LocalDate date, int period, LocalTime time, int IDField, int IDUser) throws SQLException {
         User user=uD.get(IDUser);
         if(user==null) throw new RuntimeException("The given user does not exist");
+        if(!user.canBook(date)){ throw new IllegalArgumentException("User membership does not allow the book");}
         if(bD.availableFieldAtTimeAndDate(IDField, date, time)) { throw new IllegalArgumentException("Field is already booked at this time and date");}
         if(!fD.get(IDField).getAvailability()) { throw new IllegalArgumentException("Field not available"); }
         Booking booking=new Booking(bD.getNextId(),date,period,time,user,fD.get(IDField));
@@ -37,13 +38,22 @@ public class BookingController {
         notify();
     }
 
+    public void UserRemoveBooking(int IDUser, int ID) throws SQLException {
+        User user=uD.get(IDUser);
+        LocalDate now=LocalDate.now();
+        if(!user.canDeleteBook(now)){ throw new IllegalArgumentException("User membership does not allow to delete the book");}
+        bD.remove(ID);
+        notify();
+    }
+
     public Booking getBooking (int ID) throws SQLException {
         return bD.get(ID);
     }
 
     public boolean modifyBookingDate(int ID,LocalDate date,LocalTime time) throws SQLException {
         Booking tmpBooking=bD.get(ID);
-        bD.remove(ID);
+        if(!tmpBooking.getUser().canBook(date)){ throw new IllegalArgumentException("User membership does not allow the book");}
+        UserRemoveBooking(tmpBooking.getUser().getID(),ID);
         for (int i = 0; i < tmpBooking.getPeriod() ; i++) {
             if(bD.availableFieldAtTimeAndDate(tmpBooking.getField().getId(), date, time.plusHours(i))) {bD.save(tmpBooking); throw new IllegalArgumentException("Field is already booked at this time and date");}
             if(!fD.get(tmpBooking.getField().getId()).getAvailability()) {bD.save(tmpBooking); throw new IllegalArgumentException("Field not available");}
