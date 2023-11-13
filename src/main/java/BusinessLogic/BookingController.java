@@ -21,7 +21,7 @@ public class BookingController {
         this.fD = fD;
     }
 
-    public void createBooking(int ID, LocalDate date, int period, LocalTime time, int IDField, int IDUser) throws SQLException {
+    public void createBooking(LocalDate date, int period, LocalTime time, int IDField, int IDUser) throws SQLException {
         User user=uD.get(IDUser);
         if(user==null) throw new RuntimeException("The given user does not exist");
         if(bD.availableFieldAtTimeAndDate(IDField, date, time)) { throw new IllegalArgumentException("Field is already booked at this time and date");}
@@ -39,8 +39,15 @@ public class BookingController {
         return bD.get(ID);
     }
 
-    public boolean modifyBookingDate(int ID,LocalDate date,LocalTime time){
-
+    public boolean modifyBookingDate(int ID,LocalDate date,LocalTime time) throws SQLException {
+        Booking tmpBooking=bD.get(ID);
+        bD.remove(ID);
+        for (int i = 0; i < tmpBooking.getPeriod() ; i++) {
+            if(bD.availableFieldAtTimeAndDate(tmpBooking.getField().getId(), date, time.plusHours(i))) {bD.save(tmpBooking); throw new IllegalArgumentException("Field is already booked at this time and date");}
+            if(!fD.get(tmpBooking.getField().getId()).getAvailability()) {bD.save(tmpBooking); throw new IllegalArgumentException("Field not available");}
+        }
+        bD.save(new Booking(tmpBooking.getID(), date, tmpBooking.getPeriod(), time,tmpBooking.getUser(), tmpBooking.getField() ));
+        return true;
     }
 
 
