@@ -16,8 +16,8 @@ public class User extends Person implements Observer {
     }
 
     @Override
-    public void update() {
-        System.out.println("User " + this.getName() + " " + this.getSurname() + " has been notified of the lesson cancellation");
+    public void update(String message) {
+        System.out.println("User " + this.getName() + " " + this.getSurname() + message);
     }
 
     public String getInscriptionDate() {

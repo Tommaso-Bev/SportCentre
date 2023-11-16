@@ -31,12 +31,12 @@ public class BookingController implements Subject{
         if(!fD.get(IDField).getAvailability()) { throw new IllegalArgumentException("Field not available"); }
         Booking booking=new Booking(bD.getNextId(),date,period,time,user,fD.get(IDField));
         bD.save(booking);
-        notifyobservers(IDUser);
+        notifyobservers(IDUser,"the booking was succesfull");
     }
 
     public void removeBooking(int ID) throws SQLException {
         bD.remove(ID);
-        notifyobservers(bD.get(ID).getUser().getID());
+        notifyobservers(bD.get(ID).getUser().getID(),"the booking was cancelled");
     }
 
     public void userRemoveBooking(int IDUser, int ID) throws SQLException {
@@ -44,7 +44,7 @@ public class BookingController implements Subject{
         LocalDate now=LocalDate.now();
         if(!user.canDeleteModifyBook(now)){ throw new IllegalArgumentException("User membership does not allow to delete the book");}
         bD.remove(ID);
-        notifyobservers(IDUser);
+        notifyobservers(IDUser," the cancellation of booking was succesfull ");
     }
 
     public Booking getBooking (int ID) throws SQLException {
@@ -60,7 +60,7 @@ public class BookingController implements Subject{
             if(!fD.get(tmpBooking.getField().getId()).getAvailability()) {bD.save(tmpBooking); throw new IllegalArgumentException("Field not available");}
         }
         bD.save(new Booking(tmpBooking.getID(), date, tmpBooking.getPeriod(), time,tmpBooking.getUser(), tmpBooking.getField() ));
-        notifyobservers(bD.get(ID).getUser().getID());
+        notifyobservers(bD.get(ID).getUser().getID(),"The change wassuccesfull ");
         return true;
     }
 
@@ -70,8 +70,8 @@ public class BookingController implements Subject{
     }
 
     @Override
-    public void notifyobservers(int IDUser)throws  SQLException {
+    public void notifyobservers(int IDUser,String message)throws  SQLException {
         User observer= uD.get(IDUser);
-        observer.update();
+        observer.update(message);
     }
 }
