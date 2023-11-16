@@ -1,5 +1,7 @@
 package main.java.DomainModel;
 
+import main.java.BusinessLogic.Subject;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;

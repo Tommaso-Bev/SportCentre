@@ -36,7 +36,7 @@ public class StaffController {
 
     public String removeBooking(int id) throws SQLException {
         Random choice=new Random();
-        switch (choice.nextInt(0,1)){
+        switch (choice.nextInt(1)){
             default:
                 bc.removeBooking(id);
             case 0:
@@ -50,7 +50,7 @@ public class StaffController {
         Random choice=new Random();
         ArrayList<Booking> toRemove=bc.getBookingsForDate(date);
         for (Booking booking : toRemove) bc.removeBooking(booking.getID());
-        return switch (choice.nextInt(0, 1)) {
+        return switch (choice.nextInt(1)) {
             case 0 -> "Because of technical reasons the date selected cannot be used";
             case 1 -> "Because of a problem with the fields in this date the faculty cannot be used";
             default -> null;
@@ -63,7 +63,7 @@ public class StaffController {
         for (Booking booking : toRemove)
             if (booking.getTime() == time & booking.getField()==field)
                 bc.removeBooking(booking.getID());
-        return switch (choice.nextInt(0, 1)) {
+        return switch (choice.nextInt(1)) {
             case 0 -> "Because of technical reasons the date selected cannot be used";
             case 1 -> "Because of a problem with the field in this date and time the faculty cannot be used";
             default -> null;
@@ -73,6 +73,12 @@ public class StaffController {
     public boolean checkForPayment(int id) throws SQLException {
         return bc.getBooking(id).isPayed();
     }
+
+    public void avaiableField(int IDfield)
+    {
+
+    }
+
     private SportsCentreController sc;
     private BookingController bc;
     private StaffDAO sd;

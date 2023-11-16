@@ -86,7 +86,7 @@ public class BookingDAO implements DAO<Booking>{
             ps.setInt(1,booking.getID());
             ps.setString(2, booking.getDate().toString());
             ps.setString(3,booking.getTime().plusHours((long) count).toString());
-            ps.setInt(4,random.nextInt(0,1));
+            ps.setInt(4,random.nextInt(1));
             ps.setInt(5,booking.getUser().getID());
             ps.setInt(6,booking.getField().getId());
             ps.executeQuery();

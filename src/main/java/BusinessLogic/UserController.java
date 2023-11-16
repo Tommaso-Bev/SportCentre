@@ -6,12 +6,15 @@ import main.java.DomainModel.User;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class UserController {
 private UserDAO userDAO;
+private BookingController bookingController;
 
-    public UserController(UserDAO userDAO) {
+    public UserController(UserDAO userDAO, BookingController bookingController) {
         this.userDAO = userDAO;
+        this.bookingController=bookingController;
     }
 
     public void subscribeMember(String fiscalCod, String name, String surname, LocalDate inscriptionDate,int membership) throws SQLException {
@@ -50,5 +53,14 @@ private UserDAO userDAO;
     }
 
 
+    public void addBooking(int ID, LocalDate date, int period, LocalTime time, int IDField) throws SQLException{
+        bookingController.createBooking(date,period,time,IDField,ID);
+    }
+    public void removeBooking(int IDuser,int ID) throws  SQLException{
+        bookingController.userRemoveBooking(IDuser,ID);
+    }
+    public void modifybooking(int ID,LocalDate date,LocalTime time) throws SQLException{
+        bookingController.modifyBookingDate(ID,date,time);
+    }
 
 }
