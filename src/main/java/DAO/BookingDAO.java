@@ -20,7 +20,6 @@ public class BookingDAO implements DAO<Booking>{
     private int getBookingCountById(int id) throws SQLException {
         Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
         int rowCount = 0;
-
         String query = "SELECT COUNT(*) as count FROM bookings WHERE ID=?";
         PreparedStatement prepStat = connection.prepareStatement(query);
         prepStat.setInt(1, id);
@@ -179,7 +178,7 @@ public class BookingDAO implements DAO<Booking>{
         connection.close();
         return bookings;
     }
-    public ArrayList<Booking> getBookingsForDate(Date date) throws SQLException{
+    public ArrayList<Booking> getBookingsForDate(LocalDate date) throws SQLException{
         Connection connection=DriverManager.getConnection("jdbc:sqlite:"+"sportCentre.sqlite");
         PreparedStatement ps= connection.prepareStatement("SELECT * FROM bookings WHERE date=? ");
         ps.setString(1,date.toString());

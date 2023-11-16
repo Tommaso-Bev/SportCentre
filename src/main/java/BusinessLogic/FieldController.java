@@ -27,8 +27,8 @@ public class FieldController {
         fd.remove(id);
     }
 
-    public void habilitateORdehabilitateField(int id, boolean abORdehab) throws SQLException {
-        fd.habilitateField(id, abORdehab);
+    public void habilitateOrRehabilitateField(int id, boolean abOrRehab) throws SQLException {
+        fd.habilitateField(id, abOrRehab);
     }
 
     public Field getField(int id) throws SQLException {

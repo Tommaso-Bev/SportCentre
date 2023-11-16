@@ -1,6 +1,5 @@
 package main.java.BusinessLogic;
 
-import main.java.DAO.BookingDAO;
 import main.java.DAO.FieldDAO;
 import main.java.DAO.StaffDAO;
 import main.java.DomainModel.Booking;
@@ -10,8 +9,10 @@ import main.java.DomainModel.Staff;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -48,7 +49,7 @@ public class StaffController {
         }
     }
 
-    public String removeBookingsPerDate(Date date, Field field) throws SQLException {
+    public String removeBookingsPerDate(LocalDate date, Field field) throws SQLException {
         Random choice=new Random();
         ArrayList<Booking> toRemove=bc.getBookingsForDate(date);
         for (Booking booking : toRemove) bc.removeBooking(booking.getID());
@@ -59,7 +60,7 @@ public class StaffController {
         };
     }
 
-    public String removeBookingsPerTime(Date date, LocalTime time, Field field) throws SQLException {
+    public String removeBookingsPerTime(LocalDate date, LocalTime time, Field field) throws SQLException {
         Random choice=new Random();
         ArrayList<Booking> toRemove=bc.getBookingsForDate(date);
         for (Booking booking : toRemove)
@@ -76,12 +77,12 @@ public class StaffController {
         return bc.getBooking(id).isPayed();
     }
 
-    public void unavaiableField(Field field,Date date) throws SQLException
+    public void unavailableField(Field field, LocalDate date) throws SQLException
     {
         fd.habilitateField(field.getId(),false);
         removeBookingsPerDate(date,field);
     }
-    public void avaiableField(Field field) throws SQLException
+    public void availableField(Field field) throws SQLException
     {
         fd.habilitateField(field.getId(),true);
     }

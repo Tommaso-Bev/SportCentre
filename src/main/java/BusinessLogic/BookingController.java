@@ -31,7 +31,7 @@ public class BookingController implements Subject{
         if(!fD.get(IDField).getAvailability()) { throw new IllegalArgumentException("Field not available"); }
         Booking booking=new Booking(bD.getNextId(),date,period,time,user,fD.get(IDField));
         bD.save(booking);
-        notifyobservers(IDUser,"the booking was succesfull");
+        notifyobservers(IDUser,"the booking was successful");
     }
 
     public void removeBooking(int ID) throws SQLException {
@@ -44,7 +44,7 @@ public class BookingController implements Subject{
         LocalDate now=LocalDate.now();
         if(!user.canDeleteModifyBook(now)){ throw new IllegalArgumentException("User membership does not allow to delete the book");}
         bD.remove(ID);
-        notifyobservers(IDUser," the cancellation of booking was succesfull ");
+        notifyobservers(IDUser," the cancellation of booking was successful ");
     }
 
     public Booking getBooking (int ID) throws SQLException {
@@ -60,12 +60,12 @@ public class BookingController implements Subject{
             if(!fD.get(tmpBooking.getField().getId()).getAvailability()) {bD.save(tmpBooking); throw new IllegalArgumentException("Field not available");}
         }
         bD.save(new Booking(tmpBooking.getID(), date, tmpBooking.getPeriod(), time,tmpBooking.getUser(), tmpBooking.getField() ));
-        notifyobservers(bD.get(ID).getUser().getID(),"The change wassuccesfull ");
+        notifyobservers(bD.get(ID).getUser().getID(),"The change was successful ");
         return true;
     }
 
 
-    public ArrayList<Booking> getBookingsForDate(Date date) throws SQLException {
+    public ArrayList<Booking> getBookingsForDate(LocalDate date) throws SQLException {
         return bD.getBookingsForDate(date);
     }
 
