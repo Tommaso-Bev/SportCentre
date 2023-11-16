@@ -1,6 +1,7 @@
 package main.java.BusinessLogic;
 
 import main.java.DAO.BookingDAO;
+import main.java.DAO.FieldDAO;
 import main.java.DAO.StaffDAO;
 import main.java.DomainModel.Booking;
 import main.java.DomainModel.Field;
@@ -15,10 +16,11 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class StaffController {
-    public StaffController(SportsCentreController sc, BookingController bc, StaffDAO sd) {
+    public StaffController(SportsCentreController sc, BookingController bc, StaffDAO sd, FieldDAO fd) {
         this.sc = sc;
         this.bc = bc;
         this.sd = sd;
+        this.fd=fd;
     }
 
     public void hireStaff(String codFisc, String firstName, String surname, LocalDate hiringDate, String task, int salary, SportsCentre sportsCentre) throws SQLException {
@@ -74,13 +76,19 @@ public class StaffController {
         return bc.getBooking(id).isPayed();
     }
 
-    public void avaiableField(int IDfield)
+    public void unavaiableField(Field field,Date date) throws SQLException
     {
-
+        fd.habilitateField(field.getId(),false);
+        removeBookingsPerDate(date,field);
+    }
+    public void avaiableField(Field field) throws SQLException
+    {
+        fd.habilitateField(field.getId(),true);
     }
 
     private SportsCentreController sc;
     private BookingController bc;
     private StaffDAO sd;
+    private FieldDAO fd;
 
 }
