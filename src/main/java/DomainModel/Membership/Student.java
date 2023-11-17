@@ -29,6 +29,11 @@ public class Student extends DecoratorMembership {
 
     @Override
     public String getDescription() {
-        return super.getDescription()+" Student membership, but you have less limitation on the time before reserve and on cancellation and you also get discounts when you book a DSU centre  ";
+        return super.getDescription()+" Student membership, but you have less limitation on the time before reserve and on cancellation and you also get discounts when you book from DSU centre  ";
+    }
+
+    @Override
+    public int getDiscount(){
+        return 25;
     }
 }

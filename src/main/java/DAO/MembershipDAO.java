@@ -14,14 +14,17 @@ public class MembershipDAO {
         ps.setString(1, name);
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
-            Membership m = new Free();
-            membership = m;
+            if (rs.getString("type").equals("Free")) {
+                membership=new Free();
+            }
+            if (rs.getString("type").equals("Basic")) {
+                membership=new Basic(new Free());
+            }
             if (rs.getString("type").equals("Premium")) {
-                Membership memb = new Premium(m);
-                membership = memb;
-            } else if (rs.getString("type").equals("GroomPack")) {
-                Membership memb = new Student(m);
-                membership = memb;
+                membership=new Premium(new Basic(new Free()));
+            }
+            if (rs.getString("type").equals("Student")) {
+                membership=new Student(new Basic(new Free()));
             }
         }
         rs.close();
@@ -58,12 +61,13 @@ public class MembershipDAO {
 
     public void save(Membership membership) throws SQLException {
         Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
-        PreparedStatement ps = connection.prepareStatement("INSERT INTO memberships (name, cost, description, expirationDate, timeBeforeReserve, timeBeforeDelete) VALUES (?, ?, ?, ?, ?, ?)");
+        PreparedStatement ps = connection.prepareStatement("INSERT INTO memberships (name, cost, description, expirationDate, timeBeforeReserve, timeBeforeDelete, discount) VALUES (?, ?, ?, ?, ?, ?, ?)");
         ps.setString(1, membership.getType());
         ps.setFloat(2, membership.getCost());
         ps.setString(3, membership.getDescription());
         ps.setInt(4, membership.getTimeBeforeReserve());
         ps.setInt(5, membership.getTimeBeforeDelete());
+        ps.setInt(6, membership.getDiscount());
         ps.executeUpdate();
         ps.close();
         connection.close();

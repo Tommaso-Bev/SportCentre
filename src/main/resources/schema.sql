@@ -34,7 +34,8 @@ CREATE TABLE IF NOT EXISTS memberships(
     description TEXT NOT NULL,
     expirationDate TEXT NOT NULL,
     timeBeforeReserve INTEGER NOT NULL,
-    timeBeforeDelete INTEGER NOT NULL
+    timeBeforeDelete INTEGER NOT NULL,
+    discount INTEGER NOT NULL
 );
 
 -- Table: users

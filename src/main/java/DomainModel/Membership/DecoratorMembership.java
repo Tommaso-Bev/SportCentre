@@ -41,4 +41,7 @@ public abstract class DecoratorMembership implements Membership {
     public boolean isExpired() {
         return membership.isExpired();
     }
+
+    @Override
+    public int getDiscount(){return membership.getDiscount();}
 }

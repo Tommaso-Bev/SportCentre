@@ -31,4 +31,9 @@ public class Premium extends DecoratorMembership {
     public String getDescription() {
         return super.getDescription()+" Premium membership, but you have less limitation on the time before reserve and on cancellation with also get discounts  ";
     }
+
+    @Override
+    public int getDiscount(){
+        return 20;
+    }
 }

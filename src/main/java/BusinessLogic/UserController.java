@@ -1,12 +1,14 @@
 package main.java.BusinessLogic;
 
 import main.java.DAO.UserDAO;
+import main.java.DomainModel.Field;
 import main.java.DomainModel.Membership.*;
 import main.java.DomainModel.User;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Objects;
 
 public class UserController {
 private UserDAO userDAO;

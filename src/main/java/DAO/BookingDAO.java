@@ -8,16 +8,14 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class BookingDAO implements DAO<Booking>{
-    SportsCentreDAO sportsCentreDAO;
     UserDAO userDAO;
     FieldDAO fieldDAO;
-    public BookingDAO(SportsCentreDAO sportsCentreDAO, UserDAO usd, FieldDAO fieldDAO ){
-        this.sportsCentreDAO=sportsCentreDAO;
+    public BookingDAO(UserDAO usd, FieldDAO fieldDAO ){
         this.userDAO=usd;
         this.fieldDAO=fieldDAO;
     }
 
-    private int getBookingCountById(int id) throws SQLException {
+    private int getPeriod(int id) throws SQLException {
         Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
         int rowCount = 0;
         String query = "SELECT COUNT(*) as count FROM bookings WHERE ID=?";
@@ -44,7 +42,7 @@ public class BookingDAO implements DAO<Booking>{
         prepStat.setInt(1,id);
         ResultSet resultSet=prepStat.executeQuery();
         if(resultSet.next()){
-            booking=new Booking(id, LocalDate.parse(resultSet.getString("date")),getBookingCountById(id), LocalTime.parse(resultSet.getString("time")),userDAO.get(resultSet.getInt("users")),fieldDAO.get(resultSet.getInt("field")));
+            booking=new Booking(id, LocalDate.parse(resultSet.getString("date")),getPeriod(id), LocalTime.parse(resultSet.getString("time")),userDAO.get(resultSet.getInt("users")),fieldDAO.get(resultSet.getInt("field")));
             if (resultSet.getInt("payed")==0)
                 booking.setPayed(false);
             else
@@ -157,7 +155,7 @@ public class BookingDAO implements DAO<Booking>{
         ArrayList<Booking> bookings= new ArrayList<>();
         ResultSet rs= ps.executeQuery();
         while(rs.next()){
-            bookings.add(new Booking(rs.getInt("ID"),LocalDate.parse(rs.getString("date")),rs.getInt("period"),LocalTime.parse(rs.getString("time")),userDAO.get(rs.getInt("users")),fieldDAO.get(rs.getInt("field"))));
+            bookings.add(new Booking(rs.getInt("ID"),LocalDate.parse(rs.getString("date")),getPeriod(rs.getInt("ID")),LocalTime.parse(rs.getString("time")),userDAO.get(rs.getInt("users")),fieldDAO.get(rs.getInt("field"))));
         }
         rs.close();
         ps.close();
@@ -171,7 +169,7 @@ public class BookingDAO implements DAO<Booking>{
         ArrayList<Booking> bookings= new ArrayList<>();
         ResultSet rs= ps.executeQuery();
         while(rs.next()){
-            bookings.add(new Booking(rs.getInt("ID"),LocalDate.parse(rs.getString("date")),rs.getInt("period"),LocalTime.parse(rs.getString("time")),userDAO.get(rs.getInt("users")),fieldDAO.get(rs.getInt("field"))));
+            bookings.add(new Booking(rs.getInt("ID"),LocalDate.parse(rs.getString("date")),getPeriod(rs.getInt("ID")),LocalTime.parse(rs.getString("time")),userDAO.get(rs.getInt("users")),fieldDAO.get(rs.getInt("field"))));
         }
         rs.close();
         ps.close();
@@ -185,7 +183,7 @@ public class BookingDAO implements DAO<Booking>{
         ArrayList<Booking> bookings= new ArrayList<>();
         ResultSet rs= ps.executeQuery();
         while(rs.next()){
-            bookings.add(new Booking(rs.getInt("ID"),LocalDate.parse(rs.getString("date")),rs.getInt("period"),LocalTime.parse(rs.getString("time")),userDAO.get(rs.getInt("users")),fieldDAO.get(rs.getInt("field"))));
+            bookings.add(new Booking(rs.getInt("ID"),LocalDate.parse(rs.getString("date")),getPeriod(rs.getInt("ID")),LocalTime.parse(rs.getString("time")),userDAO.get(rs.getInt("users")),fieldDAO.get(rs.getInt("field"))));
         }
         rs.close();
         ps.close();
@@ -200,7 +198,7 @@ public class BookingDAO implements DAO<Booking>{
         ArrayList<Booking> bookings= new ArrayList<>();
         ResultSet rs= ps.executeQuery();
         while(rs.next()){
-            bookings.add(new Booking(rs.getInt("ID"),LocalDate.parse(rs.getString("date")),rs.getInt("period"),LocalTime.parse(rs.getString("time")),userDAO.get(rs.getInt("users")),fieldDAO.get(rs.getInt("field"))));
+            bookings.add(new Booking(rs.getInt("ID"),LocalDate.parse(rs.getString("date")),getPeriod(rs.getInt("ID")),LocalTime.parse(rs.getString("time")),userDAO.get(rs.getInt("users")),fieldDAO.get(rs.getInt("field"))));
         }
         rs.close();
         ps.close();
