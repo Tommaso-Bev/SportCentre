@@ -17,5 +17,6 @@ public interface DAO<T> {
     public void modify(T t, String[] args) throws SQLException;
 
     public void remove(int id) throws SQLException;
+
     public int getNextId() throws SQLException ;
 }
