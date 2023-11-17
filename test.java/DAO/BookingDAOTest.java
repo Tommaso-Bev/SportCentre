@@ -1,4 +1,4 @@
-package test.java.DAO;
+package DAO;
 
 public class BookingDAOTest {
 }

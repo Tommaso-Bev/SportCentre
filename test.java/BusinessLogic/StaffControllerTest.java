@@ -1,4 +1,4 @@
-package test.java.BusinessLogic;
+package BusinessLogic;
 
 public class StaffControllerTest {
 }
