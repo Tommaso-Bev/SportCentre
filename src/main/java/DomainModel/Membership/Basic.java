@@ -31,4 +31,8 @@ public class Basic extends DecoratorMembership {
     public String getDescription() {
         return super.getDescription()+" Basic membership, but you have less limitation on the time before reserve and on cancellation  ";
     }
+    @Override
+    public int getDiscount(){
+        return 0;
+    }
 }

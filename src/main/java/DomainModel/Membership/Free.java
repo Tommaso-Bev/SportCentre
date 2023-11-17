@@ -43,4 +43,9 @@ public class Free implements Membership{
         return true;
     }
 
+    @Override
+    public int getDiscount() {
+        return 0;
+    }
+
 }

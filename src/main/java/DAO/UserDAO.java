@@ -1,6 +1,5 @@
 package main.java.DAO;
 
-import main.java.DomainModel.Field;
 import main.java.DomainModel.User;
 
 import java.sql.*;
@@ -104,6 +103,20 @@ public class UserDAO implements DAO<User> {
         statement.close();
         connection.close();
         return id;
+    }
+    public int getDiscount(String membershipName) throws SQLException {
+        Connection connection= DriverManager.getConnection("jdbc:sqlite:"+"sportCentre.sqlite");
+        int discount=0;
+        PreparedStatement prepStat=connection.prepareStatement("SELECT discount FROM memberships WHERE name= ?");
+        prepStat.setString(1, membershipName);
+        ResultSet rs=prepStat.executeQuery();
+        if (rs.next()){
+            discount= rs.getInt("discount");
+        }
+        rs.close();
+        prepStat.close();
+        connection.close();
+        return discount;
     }
 
 

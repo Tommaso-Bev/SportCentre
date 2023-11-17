@@ -27,7 +27,6 @@ public class FieldDAO implements DAO<Field>{
         connection.close();
         return field;
     }
-
     @Override
     public ArrayList<Field> getAll() throws SQLException {
         Connection connection= DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
