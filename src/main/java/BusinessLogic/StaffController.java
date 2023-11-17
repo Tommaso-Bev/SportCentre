@@ -25,6 +25,7 @@ public class StaffController {
     }
 
     public void hireStaff(Staff staff) throws SQLException {
+        staff.setID(sd.getNextId());
         sd.save(staff);
     }
 
@@ -85,6 +86,8 @@ public class StaffController {
     {
         fd.habilitateField(field.getId(),true);
     }
+
+
 
     private SportsCentreController sc;
     private BookingController bc;

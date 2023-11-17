@@ -50,6 +50,10 @@ public class Booking {
         return field;
     }
 
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
     private int ID;
     private LocalDate date;
     private float period; //duration of the booking

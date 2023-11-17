@@ -12,12 +12,13 @@ import java.time.LocalDate;
 import java.util.Random;
 
 public class SportsCentreController {
-    public SportsCentreController(SportsCentreDAO sd) {
+    public SportsCentreController(SportsCentreDAO sd, FieldController fc) {
         this.sd = sd;
+        this.fc=fc;
     }
 
-    public void createCentre(String name, String address, String CAP, String type) throws SQLException {
-        SportsCentre s = new SportsCentre(sd.getNextId(), name, address, CAP, type);
+    public void createCentre(SportsCentre s) throws SQLException {
+        s.setID(sd.getNextId());
         sd.save(s);
     }
 
@@ -29,5 +30,9 @@ public class SportsCentreController {
         return sd.get(id);
     }
 
+    public void createField(Field field) throws SQLException {
+        fc.createField(field);
+    }
     private SportsCentreDAO sd;
+    private FieldController fc;
 }

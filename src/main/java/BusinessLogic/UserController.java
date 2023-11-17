@@ -1,6 +1,7 @@
 package main.java.BusinessLogic;
 
 import main.java.DAO.UserDAO;
+import main.java.DomainModel.Booking;
 import main.java.DomainModel.Field;
 import main.java.DomainModel.Membership.*;
 import main.java.DomainModel.User;
@@ -19,9 +20,8 @@ private BookingController bookingController;
         this.bookingController=bookingController;
     }
 
-    public void subscribeMember(String fiscalCod, String name, String surname, LocalDate inscriptionDate,int membership) throws SQLException {
-        Membership m=getMembership(membership);
-        User user=new User(userDAO.getNextId(),fiscalCod,name,surname,inscriptionDate,m);
+    public void subscribeMember(User user) throws SQLException {
+        user.setID(userDAO.getNextId());
         userDAO.save(user);
     }
 
@@ -51,8 +51,8 @@ private BookingController bookingController;
     }
 
 
-    public void addBooking(int ID, LocalDate date, int period, LocalTime time, int IDField) throws SQLException{
-        bookingController.createBooking(date,period,time,IDField,ID);
+    public void addBooking(Booking booking) throws SQLException{
+        bookingController.createBooking(booking);
     }
     public void removeBooking(int ID,int IDBooking) throws  SQLException{
         bookingController.userRemoveBooking(ID,IDBooking);

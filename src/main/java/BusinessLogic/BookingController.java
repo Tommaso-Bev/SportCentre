@@ -25,16 +25,16 @@ public class BookingController implements Subject{
         this.fD = fD;
     }
 
-    public void createBooking(LocalDate date, int period, LocalTime time, int IDField, int IDUser) throws SQLException {
-        User user=uD.get(IDUser);
-        Field field=fD.get(IDField);
+    public void createBooking(Booking booking) throws SQLException {
+        User user=booking.getUser();
+        Field field=booking.getField();
         if(user==null) throw new RuntimeException("The given user does not exist");
-        if(!user.canBook(date)){ throw new IllegalArgumentException("User membership does not allow the book");}
-        if(bD.availableFieldAtTimeAndDate(IDField, date, time)) { throw new IllegalArgumentException("Field is already booked at this time and date");}
+        if(!user.canBook(booking.getDate())){ throw new IllegalArgumentException("User membership does not allow the book");}
+        if(bD.availableFieldAtTimeAndDate(booking.getField().getId(),booking.getDate(),booking.getTime())) { throw new IllegalArgumentException("Field is already booked at this time and date");}
         if(!field.getAvailability()) { throw new IllegalArgumentException("Field not available"); }
-        Booking booking=new Booking(bD.getNextId(),date,period,time,user,field);
+        booking.setID(bD.getNextId());
         bD.save(booking);
-        notifyobservers(IDUser,"the booking was successful, you have to pay: "+ getPrice(period,user,field)+"$");
+        notifyobservers(user.getID(), "the booking was successful, you have to pay: "+ getPrice((int) booking.getPeriod(),user,field)+"$");
     }
 
     public float getPrice(int period, User user, Field field ) throws SQLException {

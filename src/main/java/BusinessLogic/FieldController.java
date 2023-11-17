@@ -14,8 +14,8 @@ public class FieldController {
         this.fd = fd;
     }
 
-    public void createField(String sport, int min, int max, int fineph, SportsCentre centre, boolean availability) throws SQLException {
-        Field field = new Field(fd.getNextId(), sport, min, max, fineph, availability, centre);
+    public void createField(Field field) throws SQLException {
+        field.setID(fd.getNextId());
         fd.save(field);
     }
 

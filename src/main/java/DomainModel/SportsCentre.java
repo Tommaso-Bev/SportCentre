@@ -34,4 +34,8 @@ public class SportsCentre {
     public int getId() {
         return ID;
     }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
 }
