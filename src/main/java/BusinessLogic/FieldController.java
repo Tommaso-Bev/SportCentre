@@ -8,14 +8,10 @@ import main.java.DomainModel.SportsCentre;
 import java.sql.SQLException;
 
 public class FieldController {
-    private BookingDAO bd;
     private FieldDAO fd;
-    private SportsCentreController sc;
 
     public FieldController(BookingDAO bd, FieldDAO fd, SportsCentreController sc) {
-        this.bd = bd;
         this.fd = fd;
-        this.sc = sc;
     }
 
     public void createField(String sport, int min, int max, int fineph, SportsCentre centre, boolean availability) throws SQLException {
