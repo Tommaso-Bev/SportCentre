@@ -70,10 +70,10 @@ public class MembershipDAO {
     }
 
 
-    public void remove(int id) throws SQLException {
+    public void remove(String name) throws SQLException {
         Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
-        PreparedStatement ps = connection.prepareStatement("DELETE FROM sportsCentres WHERE ID = ?");
-        ps.setInt(1, id);
+        PreparedStatement ps = connection.prepareStatement("DELETE FROM memberships WHERE name = ?");
+        ps.setString(1, name);
         ps.executeUpdate();
         ps.close();
         connection.close();
