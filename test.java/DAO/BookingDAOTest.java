@@ -1,6 +1,7 @@
 package DAO;
 import main.java.DAO.*;
 import main.java.DomainModel.*;
+import main.java.DomainModel.Membership.*;
 import org.junit.jupiter.api.*;
 
 import java.io.BufferedReader;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,9 +23,11 @@ public class BookingDAOTest {
     private UserDAO userDAO=new UserDAO(membershipDAO);
     private FieldDAO fieldDAO=new FieldDAO(sportsCentreDAO);
     private BookingDAO bookingDAO;
+    private String date;
+    private String time;
 
     @BeforeAll
-    public static void setUpBeforeAll() throws IOException, SQLException {
+    public static void setUpBeforeAll() throws IOException, SQLException, ClassNotFoundException {
         // Set up database
         StringBuilder resultStringBuilder = new StringBuilder();
         BufferedReader br = new BufferedReader(new FileReader("src/main/resources/schema.sql"));
@@ -52,28 +56,29 @@ public class BookingDAOTest {
         }
 
         //Insert some test data
+        this.date = LocalDate.now().toString();
+        this.time = LocalTime.now().truncatedTo(ChronoUnit.HOURS).toString();
+
         connection.prepareStatement("INSERT INTO sportsCentres (id, name, address, CAP, type) VALUES (1, 'SportCentre1', 'address1','CAP1','NONE')").executeUpdate();
         connection.prepareStatement("INSERT INTO sportsCentres (id, name, address, CAP, type) VALUES (2, 'SportCentre1', 'address2','CAP2','STUDENT' )").executeUpdate();
 
-        connection.prepareStatement("INSERT INTO fields (id, name, available) VALUES (1, 'name1', true)").executeUpdate();
-        connection.prepareStatement("INSERT INTO fields (id, name, available) VALUES (2, 'name2', true)").executeUpdate();
-        connection.prepareStatement("INSERT INTO fields (id, name, available) VALUES (2, 'name2', true)").executeUpdate();
+        connection.prepareStatement("INSERT INTO fields (id, sport, minimumPeopleRequired, maximumPeopleRequired, fineph, availability, sportCentre) VALUES (1, 'sport1', 4, 8, 15, 1, 1)").executeUpdate();
+        connection.prepareStatement("INSERT INTO fields (id, sport, minimumPeopleRequired, maximumPeopleRequired, fineph, availability, sportCentre) VALUES (2, 'sport2', 3, 9, 20, 1, 2)").executeUpdate();
+        connection.prepareStatement("INSERT INTO fields (id, sport, minimumPeopleRequired, maximumPeopleRequired, fineph, availability, sportCentre) VALUES (3, 'sport3', 3, 9, 25, 0, 1)").executeUpdate();
 
-        this.data = LocalDate.now().toString();
-        this.ora = LocalTime.now().truncatedTo(ChronoUnit.HOURS).toString();
+        Membership m1=new Free(); membershipDAO.save(m1);
+        Membership m2=new Basic(m1); membershipDAO.save(m2);
+        Membership m3=new Student(m2); membershipDAO.save(m3);
+        Membership m4=new Premium(m2); membershipDAO.save(m4);
 
-        connection.prepareStatement("INSERT INTO memberships (fiscalCode, firstName, lastName, ) VALUES ('BBBBBB11', 'name1', 'surname1', 1)").executeUpdate();
-        connection.prepareStatement("INSERT INTO memberships (fiscalCode, firstName, lastName, ) VALUES ('BBBBBB11', 'name1', 'surname1', 1)").executeUpdate();
-        connection.prepareStatement("INSERT INTO memberships (fiscalCode, firstName, lastName, ) VALUES ('BBBBBB11', 'name1', 'surname1', 1)").executeUpdate();
-        connection.prepareStatement("INSERT INTO memberships (fiscalCode, firstName, lastName, ) VALUES ('BBBBBB11', 'name1', 'surname1', 1)").executeUpdate();
+        connection.prepareStatement("INSERT INTO users (ID, codFisc, firstName, surname, inscriptionDate, membershipsName ) VALUES (1, 'codFisc1', 'name1', 'surname1','"+ this.date +"', 'Basic')").executeUpdate();
+        connection.prepareStatement("INSERT INTO users (ID, codFisc, firstName, surname, inscriptionDate, membershipsName ) VALUES (2, 'codFisc2', 'name2', 'surname2','"+ LocalDate.now() +"', 'Student')").executeUpdate();
+        connection.prepareStatement("INSERT INTO users (ID, codFisc, firstName, surname, inscriptionDate, membershipsName ) VALUES (3, 'codFisc3', 'name3', 'surname3','"+ this.date +"', 'Premium')").executeUpdate();
 
-        connection.prepareStatement("INSERT INTO users (fiscalCode, firstName, lastName, ) VALUES ('BBBBBB11', 'name1', 'surname1', 1)").executeUpdate();
-        connection.prepareStatement("INSERT INTO users (fiscalCode, firstName, lastName, ) VALUES ('BBBBBB11', 'name1', 'surname1', 1)").executeUpdate();
 
-        connection.prepareStatement("INSERT INTO bookings (id, , , date, time) VALUES (1, 1, 'AAAAAA11', '" + LocalDate.now() + "', '" + LocalTime.now() + "')").executeUpdate();
-        connection.prepareStatement("INSERT INTO bookings (id, , , date, time) VALUES (2, 1, 'AAAAAA11', '" + LocalDate.now() + "', '" + LocalTime.now().plusHours(1) + "')").executeUpdate();
-        connection.prepareStatement("INSERT INTO bookings (id, , , date, time) VALUES (3, 1, 'AAAAAA11', '" + this.data + "', '" + this.ora + "')").executeUpdate();
-
+        connection.prepareStatement("INSERT INTO bookings (ID, date, time, payed, users, field) VALUES (1, '" + this.date + "', '" + this.time + "', 0, 1, 1)").executeUpdate();
+        connection.prepareStatement("INSERT INTO bookings (ID, date, time, payed, users, field) VALUES (2, '" + LocalDate.now() + "', '" + LocalTime.now() + "', 1, 2, 2)").executeUpdate();
+        connection.prepareStatement("INSERT INTO bookings (ID, date, time, payed, users, field) VALUES (3, '" + LocalDate.now().plusDays(2) + "', '" + LocalTime.now().plusHours(5) + "', 0, 3, 3)").executeUpdate();
 
         connection.close();
     }
@@ -99,12 +104,11 @@ public class BookingDAOTest {
 
     @Test
     public void testSaveBooking() throws SQLException {
-        // Test per il metodo save(Booking booking)
-        // Crea una nuova prenotazione da salvare nel database
-        Booking newBooking = new Booking(/* specifica i parametri della prenotazione */);
-        bookingDAO.save(newBooking);
-        // Effettua le asserzioni per verificare che il salvataggio sia avvenuto correttamente
-        // Assertions.assertTrue(condition);
+        User user=userDAO.get(2);
+        Field field=fieldDAO.get(2);
+        Booking booking = new Booking(4, LocalDate.now(), 3, LocalTime.now().plusHours(2), user, field);
+        Assertions.assertDoesNotThrow(() -> bookingDAO.save(booking));
+        Assertions.assertEquals(4, bookingDAO.getAll().size());
     }
 
     // Altri test per i vari metodi della classe BookingDAO...
