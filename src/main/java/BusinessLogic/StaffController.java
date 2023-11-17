@@ -24,8 +24,7 @@ public class StaffController {
         this.fd=fd;
     }
 
-    public void hireStaff(String codFisc, String firstName, String surname, LocalDate hiringDate, String task, int salary, SportsCentre sportsCentre) throws SQLException {
-        Staff staff = new Staff(sd.getNextId(), codFisc, firstName, surname, hiringDate, task, salary, sportsCentre);
+    public void hireStaff(Staff staff) throws SQLException {
         sd.save(staff);
     }
 
