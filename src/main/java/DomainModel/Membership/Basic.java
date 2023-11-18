@@ -20,11 +20,11 @@ public class Basic extends DecoratorMembership {
     @Override
     public int getTimeBeforeDelete() {
         return 2;
-    }//TODO put the correct amount for all the returns
+    }
 
     @Override
     public float getCost() {
-        return super.getCost()+1000;
+        return super.getCost()+6;
     }
 
     @Override
