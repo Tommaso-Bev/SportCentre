@@ -58,7 +58,7 @@ public class BookingDAO implements DAO<Booking>{
 
     @Override
     public ArrayList<Booking> getAll() throws SQLException {
-        Connection connection=DriverManager.getConnection("jdbc:sqlite:"+"sportCentre.sqlite");
+        Connection connection=DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         ArrayList<Booking> bookings= new ArrayList<>();
         PreparedStatement ps= connection.prepareStatement("SELECT DISTINCT ID FROM bookings");
         ResultSet rs=ps.executeQuery();
@@ -104,7 +104,7 @@ public class BookingDAO implements DAO<Booking>{
         ps.setInt(4,Integer.parseInt(args[4]));
         ps.setInt(5,booking.getID());
         ps.setString(6,booking.getTime().toString());
-        ps.executeQuery();
+        ps.executeUpdate();
         ps.close();
         connection.close();
     }
@@ -114,7 +114,7 @@ public class BookingDAO implements DAO<Booking>{
         Connection connection= DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         PreparedStatement ps= connection.prepareStatement("DELETE FROM bookings WHERE ID=?");
         ps.setInt(1,id);
-        ps.executeQuery();
+        ps.executeUpdate();
         ps.close();
         connection.close();
 

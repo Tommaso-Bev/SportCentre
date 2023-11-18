@@ -15,7 +15,7 @@ public class StaffDAO implements DAO<Staff> {
 
     @Override
     public Staff get(int id) throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         Staff staff = null;
         PreparedStatement prepStat = connection.prepareStatement("SELECT * FROM staff WHERE ID= ?");
         prepStat.setInt(1, id);
@@ -31,7 +31,7 @@ public class StaffDAO implements DAO<Staff> {
 
     @Override
     public ArrayList<Staff> getAll() throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         ArrayList<Staff> staff = new ArrayList<>();
         PreparedStatement ps = connection.prepareStatement("SELECT * FROM staff");
         ResultSet resSet = ps.executeQuery();
@@ -47,7 +47,7 @@ public class StaffDAO implements DAO<Staff> {
 
     @Override
     public void save(Staff staff) throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         PreparedStatement ps = connection.prepareStatement("INSERT INTO staff (ID, codFisc, firstName,surname, hiringDate, task, salary,sportsCentresID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         ps.setInt(1, getNextId());
         ps.setString(2, staff.getName());
@@ -64,7 +64,7 @@ public class StaffDAO implements DAO<Staff> {
 
     @Override
     public void modify(Staff staff, String[] args) throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         PreparedStatement ps = connection.prepareStatement("UPDATE staff SET codFisc = ?, firstName = ?, surname = ?,hiringDate = ?,task = ?, salary=?, sportsCentresID=?  WHERE ID = ?");
         ps.setString(1, args[0]);
         ps.setString(2, args[1]);
@@ -81,7 +81,7 @@ public class StaffDAO implements DAO<Staff> {
 
     @Override
     public void remove(int id) throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         PreparedStatement ps = connection.prepareStatement("DELETE FROM staff WHERE ID = ?");
         ps.setInt(1, id);
         ps.executeUpdate();
@@ -92,7 +92,7 @@ public class StaffDAO implements DAO<Staff> {
     @Override
 
     public int getNextId() throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         String query = "SELECT MAX(ID) FROM staff";
         PreparedStatement statement = connection.prepareStatement(query);
         ResultSet rs = statement.executeQuery();

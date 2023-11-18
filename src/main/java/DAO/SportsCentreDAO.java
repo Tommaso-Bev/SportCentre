@@ -27,7 +27,7 @@ public class SportsCentreDAO implements DAO<SportsCentre> {
 
     @Override
     public ArrayList<SportsCentre> getAll() throws SQLException {
-        Connection connection= DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        Connection connection= DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         ArrayList<SportsCentre> sportsCentres = new ArrayList<>();
         PreparedStatement ps = connection.prepareStatement("SELECT * FROM sportsCentres");
         ResultSet rs = ps.executeQuery();
@@ -43,7 +43,7 @@ public class SportsCentreDAO implements DAO<SportsCentre> {
 
     @Override
     public void save(SportsCentre sportsCentre) throws SQLException {
-        Connection connection= DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        Connection connection= DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         PreparedStatement ps = connection.prepareStatement("INSERT INTO sportsCentres (ID, name, address, CAP, type) VALUES (?, ?, ?, ?, ?)");
         ps.setInt(1,sportsCentre.getId());
         ps.setString(2, sportsCentre.getName());
@@ -58,7 +58,7 @@ public class SportsCentreDAO implements DAO<SportsCentre> {
 
     @Override
     public void modify(SportsCentre sportsCentre, String[] args) throws SQLException {
-        Connection connection= DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        Connection connection= DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         PreparedStatement ps = connection.prepareStatement("UPDATE sportsCentres SET name = ?, address = ?, CAP = ?, type = ? WHERE ID = ?");
         ps.setString(1, args[0]);
         ps.setString(2, args[1]);
@@ -72,7 +72,7 @@ public class SportsCentreDAO implements DAO<SportsCentre> {
 
     @Override
     public void remove(int id) throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         PreparedStatement ps = connection.prepareStatement("DELETE FROM sportsCentres WHERE ID = ?");
         ps.setInt(1, id);
         ps.executeUpdate();
@@ -82,7 +82,7 @@ public class SportsCentreDAO implements DAO<SportsCentre> {
 
     @Override
     public int getNextId() throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         String query = "SELECT MAX(ID) FROM sportsCentres";
         PreparedStatement statement = connection.prepareStatement(query);
         ResultSet rs = statement.executeQuery();

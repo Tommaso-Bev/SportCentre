@@ -81,7 +81,7 @@ public class FieldDAO implements DAO<Field>{
 
     @Override
     public void modify(Field field, String[] args) throws SQLException {
-        Connection connection= DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        Connection connection= DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         PreparedStatement ps = connection.prepareStatement("UPDATE fields SET sport = ?, minimumPeopleRequired = ?, maximumPeopleRequired = ?,fineph = ?,availability = ?   WHERE ID = ?");
         ps.setString(1, args[0]);
         ps.setInt(2, Integer.parseInt(args[1]));
@@ -96,7 +96,7 @@ public class FieldDAO implements DAO<Field>{
 
     @Override
     public void remove(int id) throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         PreparedStatement ps = connection.prepareStatement("DELETE FROM fields WHERE ID = ?");
         ps.setInt(1, id);
         ps.executeUpdate();
@@ -106,7 +106,7 @@ public class FieldDAO implements DAO<Field>{
 
     @Override
     public int getNextId() throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         String query = "SELECT MAX(ID) FROM fields";
         PreparedStatement statement = connection.prepareStatement(query);
         ResultSet rs = statement.executeQuery();

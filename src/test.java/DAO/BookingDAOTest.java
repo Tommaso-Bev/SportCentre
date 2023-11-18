@@ -41,7 +41,7 @@ public class BookingDAOTest {
         }
 
         Connection connection = DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
-        Statement stmt = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite").createStatement();
+        Statement stmt = DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite").createStatement();
         stmt.executeUpdate(resultStringBuilder.toString());
 
         stmt.close();

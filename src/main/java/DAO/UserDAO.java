@@ -66,7 +66,7 @@ public class UserDAO implements DAO<User> {
 
     @Override
     public void modify(User user, String[] args) throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         PreparedStatement ps = connection.prepareStatement("UPDATE users SET codFisc = ?, firstName = ?, surname = ?,inscriptionDate = ?,membershipsName = ?   WHERE ID = ?");
         ps.setString(1, args[0]);
         ps.setString(2, args[1]);
@@ -81,7 +81,7 @@ public class UserDAO implements DAO<User> {
 
     @Override
     public void remove(int id) throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         PreparedStatement ps = connection.prepareStatement("DELETE FROM users WHERE ID = ?");
         ps.setInt(1, id);
         ps.executeUpdate();
@@ -91,7 +91,7 @@ public class UserDAO implements DAO<User> {
 
     @Override
     public int getNextId() throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         String query = "SELECT MAX(ID) FROM users";
         PreparedStatement statement = connection.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
@@ -109,7 +109,7 @@ public class UserDAO implements DAO<User> {
     }
 
     public int getDiscount(String membershipName) throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         int discount = 0;
         PreparedStatement prepStat = connection.prepareStatement("SELECT discount FROM memberships WHERE name= ?");
         prepStat.setString(1, membershipName);
