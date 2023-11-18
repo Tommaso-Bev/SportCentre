@@ -99,9 +99,9 @@ public class BookingDAO implements DAO<Booking>{
         Connection connection= DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         PreparedStatement ps= connection.prepareStatement("UPDATE bookings SET date=?,time=?, users=?, field=? WHERE ID=? AND time=?");
         ps.setString(1,args[0]);
-        ps.setString(2,args[2]);
-        ps.setInt(3,Integer.parseInt(args[3]));
-        ps.setInt(4,Integer.parseInt(args[4]));
+        ps.setString(2,args[1]);
+        ps.setInt(3,Integer.parseInt(args[2]));
+        ps.setInt(4,Integer.parseInt(args[3]));
         ps.setInt(5,booking.getID());
         ps.setString(6,booking.getTime().toString());
         ps.executeUpdate();
@@ -112,6 +112,16 @@ public class BookingDAO implements DAO<Booking>{
     @Override
     public void remove(int id) throws SQLException {
         Connection connection= DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
+        PreparedStatement st = connection.prepareStatement("SELECT ID FROM bookings WHERE ID = ?");
+        st.setInt(1, id);
+        ResultSet resultSet = st.executeQuery();
+
+        // Verify if booking with this id exist
+        if (!resultSet.next()) {
+            throw new SQLException("Booking not found: " + id);
+        }
+
+        // Proceed to delete the booking
         PreparedStatement ps= connection.prepareStatement("DELETE FROM bookings WHERE ID=?");
         ps.setInt(1,id);
         ps.executeUpdate();
@@ -150,12 +160,12 @@ public class BookingDAO implements DAO<Booking>{
     }
     public ArrayList<Booking> getBookingsForMember(int memberID) throws SQLException{
         Connection connection= DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
-        PreparedStatement ps= connection.prepareStatement("SELECT * FROM bookings WHERE users=? ");
+        PreparedStatement ps= connection.prepareStatement("SELECT DISTINCT ID FROM bookings WHERE users=? ");
         ps.setInt(1,memberID);
         ArrayList<Booking> bookings= new ArrayList<>();
         ResultSet rs= ps.executeQuery();
         while(rs.next()){
-            bookings.add(new Booking(rs.getInt("ID"),LocalDate.parse(rs.getString("date")),getPeriod(rs.getInt("ID")),LocalTime.parse(rs.getString("time")),userDAO.get(rs.getInt("users")),fieldDAO.get(rs.getInt("field"))));
+            bookings.add(get(rs.getInt("ID")));
         }
         rs.close();
         ps.close();
@@ -164,12 +174,12 @@ public class BookingDAO implements DAO<Booking>{
     }
     public ArrayList<Booking> getBookingsForField(int fieldID) throws SQLException{
         Connection connection= DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
-        PreparedStatement ps= connection.prepareStatement("SELECT * FROM bookings WHERE field=? ");
+        PreparedStatement ps= connection.prepareStatement("SELECT DISTINCT ID FROM bookings WHERE field=? ");
         ps.setInt(1,fieldID);
         ArrayList<Booking> bookings= new ArrayList<>();
         ResultSet rs= ps.executeQuery();
         while(rs.next()){
-            bookings.add(new Booking(rs.getInt("ID"),LocalDate.parse(rs.getString("date")),getPeriod(rs.getInt("ID")),LocalTime.parse(rs.getString("time")),userDAO.get(rs.getInt("users")),fieldDAO.get(rs.getInt("field"))));
+            bookings.add(get(rs.getInt("ID")));
         }
         rs.close();
         ps.close();
@@ -178,12 +188,12 @@ public class BookingDAO implements DAO<Booking>{
     }
     public ArrayList<Booking> getBookingsForDate(LocalDate date) throws SQLException{
         Connection connection= DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
-        PreparedStatement ps= connection.prepareStatement("SELECT * FROM bookings WHERE date=? ");
+        PreparedStatement ps= connection.prepareStatement("SELECT DISTINCT ID FROM bookings WHERE date=? ");
         ps.setString(1,date.toString());
         ArrayList<Booking> bookings= new ArrayList<>();
         ResultSet rs= ps.executeQuery();
         while(rs.next()){
-            bookings.add(new Booking(rs.getInt("ID"),LocalDate.parse(rs.getString("date")),getPeriod(rs.getInt("ID")),LocalTime.parse(rs.getString("time")),userDAO.get(rs.getInt("users")),fieldDAO.get(rs.getInt("field"))));
+            bookings.add(get(rs.getInt("ID")));
         }
         rs.close();
         ps.close();
@@ -192,13 +202,13 @@ public class BookingDAO implements DAO<Booking>{
     }
     public ArrayList<Booking> getBookingsForDateAndTime(LocalDate ld,LocalTime time) throws SQLException{
         Connection connection= DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
-        PreparedStatement ps= connection.prepareStatement("SELECT * FROM bookings WHERE date=? AND time=?  ");
+        PreparedStatement ps= connection.prepareStatement("SELECT DISTINCT ID FROM bookings WHERE date=? AND time=?  ");
         ps.setString(1,ld.toString());
         ps.setString(2,time.toString());
         ArrayList<Booking> bookings= new ArrayList<>();
         ResultSet rs= ps.executeQuery();
         while(rs.next()){
-            bookings.add(new Booking(rs.getInt("ID"),LocalDate.parse(rs.getString("date")),getPeriod(rs.getInt("ID")),LocalTime.parse(rs.getString("time")),userDAO.get(rs.getInt("users")),fieldDAO.get(rs.getInt("field"))));
+            bookings.add(get(rs.getInt("ID")));
         }
         rs.close();
         ps.close();

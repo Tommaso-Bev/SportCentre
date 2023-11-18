@@ -88,24 +88,7 @@ public class BookingDAOTest {
         connection.close();
     }
 
-    @Test
-    public void testGetBookingById() throws SQLException {
-        // Test per il metodo get(int id)
-        int id = 1; // Sostituire con l'ID esistente nel tuo database
-        Booking booking = bookingDAO.get(id);
-        // Effettua le asserzioni per verificare che il risultato sia corretto
-        // Assertions.assertNotNull(booking);
-        // Assertions.assertEquals(expectedValue, actualValue);
-    }
 
-    @Test
-    public void testGetAllBookings() throws SQLException {
-        // Test per il metodo getAll()
-        ArrayList<Booking> bookings = bookingDAO.getAll();
-        // Effettua le asserzioni per verificare che il risultato sia corretto
-        // Assertions.assertNotNull(bookings);
-        // Assertions.assertEquals(expectedValue, actualValue);
-    }
 
     @Test
     public void testSaveBooking() throws SQLException {
@@ -116,6 +99,104 @@ public class BookingDAOTest {
         Assertions.assertEquals(4, bookingDAO.getAll().size());
     }
 
-    // Altri test per i vari metodi della classe BookingDAO...
+    @Test
+    public void testUpdateBookingSuccess() throws Exception {
+        User user=userDAO.get(1);
+        Field field=fieldDAO.get(1);
+        String [] update={this.date , this.time,"1", "1"}; //modified date and time
+        Assertions.assertDoesNotThrow(() -> bookingDAO.modify(bookingDAO.get(1),update));
+        Assertions.assertEquals(3, bookingDAO.getAll().size());
+    }
+
+    @Test
+    public void testRemoveSuccess() throws Exception {
+        User user=userDAO.get(2);
+        Field field=fieldDAO.get(2);
+        Booking booking = new Booking(4, LocalDate.now(), 3, LocalTime.now().plusHours(2), user, field);
+        bookingDAO.save(booking);
+        Assertions.assertDoesNotThrow(() -> bookingDAO.remove(4));
+        Assertions.assertEquals(3, bookingDAO.getAll().size());
+    }
+
+    @Test
+    public void testRemoveFail() {
+        Assertions.assertThrows(Exception.class, () -> bookingDAO.remove(5));
+    }
+
+    @Test
+    public void testGet() throws Exception {
+        Booking booking=bookingDAO.get(1);
+        Assertions.assertEquals(1, booking.getID());
+        Assertions.assertEquals(this.date, booking.getDate().toString());
+        Assertions.assertEquals(this.time, booking.getTime().toString());
+        Assertions.assertEquals(1, booking.getUser().getID());
+        Assertions.assertEquals(1, booking.getField().getId());
+        Assertions.assertFalse(booking.isPayed());
+    }
+
+    @Test
+    public void testGetAll() throws Exception {
+        User user=userDAO.get(2);
+        Field field=fieldDAO.get(2);
+        Booking booking = new Booking(4, LocalDate.now(), 3, LocalTime.now().plusHours(2), user, field);
+        bookingDAO.save(booking);
+        List<Booking> bookings = bookingDAO.getAll();
+        Assertions.assertEquals(4, bookings.size());
+        Assertions.assertEquals(1, bookings.get(0).getID());
+        Assertions.assertEquals(2, bookings.get(1).getID());
+    }
+
+
+    @Test
+    public void testGetBookingsForMember() throws Exception {
+        User user=userDAO.get(2);
+        Field field=fieldDAO.get(2);
+        Booking booking = new Booking(4, LocalDate.now(), 3, LocalTime.now().plusHours(2), user, field);
+        bookingDAO.save(booking);
+        ArrayList<Booking> bookings = bookingDAO.getBookingsForMember(2);
+        Assertions.assertEquals(2, bookings.size());
+    }
+
+    @Test
+    public void testGetBookingsForField() throws Exception {
+        User user=userDAO.get(2);
+        Field field=fieldDAO.get(2);
+        Booking booking = new Booking(4, LocalDate.now(), 3, LocalTime.now().plusHours(2), user, field);
+        bookingDAO.save(booking);
+        ArrayList<Booking> bookings = bookingDAO.getBookingsForField(2);
+        Assertions.assertEquals(2, bookings.size());
+    }
+
+    @Test
+    public void testGetBookingsForDate() throws Exception {
+        User user=userDAO.get(2);
+        Field field=fieldDAO.get(2);
+        Booking booking = new Booking(4, LocalDate.now(), 3, LocalTime.now().plusHours(2), user, field);
+        bookingDAO.save(booking);
+        ArrayList<Booking> bookings = bookingDAO.getBookingsForDate(LocalDate.now());
+        Assertions.assertEquals(3, bookings.size());
+    }
+    @Test
+    public void testGetBookingsForDateAndTime() throws Exception {
+        User user=userDAO.get(2);
+        Field field=fieldDAO.get(2);
+        Booking booking = new Booking(4, LocalDate.now(), 3, LocalTime.parse(this.time) , user, field);
+        bookingDAO.save(booking);
+        ArrayList<Booking> bookings = bookingDAO.getBookingsForDateAndTime(LocalDate.now(), LocalTime.parse(this.time));
+        Assertions.assertEquals(2, bookings.size());
+    }
+    @Test
+    public void testAvailableFieldAtTimeAndDate() throws Exception {
+        User user=userDAO.get(2);
+        Field field=fieldDAO.get(2);
+        Booking booking = new Booking(4, LocalDate.now(), 3, LocalTime.parse(this.time) , user, field);
+        bookingDAO.save(booking);
+        Assertions.assertTrue(bookingDAO.availableFieldAtTimeAndDate(2,LocalDate.now(),LocalTime.parse(this.time).plusHours(2)));   //Available
+        Assertions.assertFalse(bookingDAO.availableFieldAtTimeAndDate(2,LocalDate.now(),LocalTime.parse(this.time).plusHours(4)));  //Not Available
+        Assertions.assertFalse(bookingDAO.availableFieldAtTimeAndDate(1,LocalDate.now().plusDays(1),LocalTime.parse(this.time)));   //Not Available
+
+    }
+
+
 
 }
