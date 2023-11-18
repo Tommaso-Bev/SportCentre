@@ -1,17 +1,16 @@
-package main.java.BusinessLogic;
+package BusinessLogic;
 
-import main.java.DAO.BookingDAO;
-import main.java.DAO.FieldDAO;
-import main.java.DAO.UserDAO;
-import main.java.DomainModel.Booking;
-import main.java.DomainModel.Field;
-import main.java.DomainModel.User;
+import DAO.BookingDAO;
+import DAO.FieldDAO;
+import DAO.UserDAO;
+import DomainModel.Booking;
+import DomainModel.Field;
+import DomainModel.User;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.Objects;
 
 public class BookingController implements Subject{

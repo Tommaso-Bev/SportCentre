@@ -1,11 +1,14 @@
 package DAO;
-import main.java.DAO.*;
-import main.java.DomainModel.*;
-import main.java.DomainModel.Membership.*;
-import org.junit.jupiter.api.*;
+import DomainModel.Booking;
+import DAO.*;
+import DomainModel.*;
+import DomainModel.Membership.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
@@ -28,6 +31,7 @@ public class BookingDAOTest {
 
     @BeforeAll
     public static void setUpBeforeAll() throws IOException, SQLException, ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
         // Set up database
         StringBuilder resultStringBuilder = new StringBuilder();
         BufferedReader br = new BufferedReader(new FileReader("src/main/resources/schema.sql"));
@@ -36,7 +40,7 @@ public class BookingDAOTest {
             resultStringBuilder.append(line).append("\n");
         }
 
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         Statement stmt = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite").createStatement();
         stmt.executeUpdate(resultStringBuilder.toString());
 
@@ -45,8 +49,9 @@ public class BookingDAOTest {
     }
 
     @BeforeEach
-    public void initDb() throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+    public void initDb() throws SQLException, ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         bookingDAO=new BookingDAO(userDAO,fieldDAO);
 
         // Delete data from lessons table

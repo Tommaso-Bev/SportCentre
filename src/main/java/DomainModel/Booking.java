@@ -1,6 +1,6 @@
-package main.java.DomainModel;
+package DomainModel;
 
-import main.java.BusinessLogic.Subject;
+import BusinessLogic.Subject;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

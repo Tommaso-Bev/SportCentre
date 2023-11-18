@@ -1,11 +1,7 @@
-package main.java.DAO;
-import main.java.DomainModel.Booking;
-import main.java.DomainModel.Field;
+package DAO;
 
 import java.sql.SQLException;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.List;
 
 public interface DAO<T> {
     public T get(int id) throws SQLException;

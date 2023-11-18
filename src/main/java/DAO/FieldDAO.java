@@ -1,6 +1,6 @@
-package main.java.DAO;
-import main.java.DomainModel.Field;
-import main.java.DomainModel.SportsCentre;
+package DAO;
+import DomainModel.Field;
+import DomainModel.SportsCentre;
 
 import java.sql.*;
 import java.util.ArrayList;

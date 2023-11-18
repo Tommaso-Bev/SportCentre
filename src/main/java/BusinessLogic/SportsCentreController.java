@@ -1,11 +1,11 @@
-package main.java.BusinessLogic;
+package BusinessLogic;
 
-import main.java.DAO.FieldDAO;
-import main.java.DAO.SportsCentreDAO;
-import main.java.DAO.StaffDAO;
-import main.java.DomainModel.Field;
-import main.java.DomainModel.SportsCentre;
-import main.java.DomainModel.Staff;
+import DAO.FieldDAO;
+import DAO.SportsCentreDAO;
+import DAO.StaffDAO;
+import DomainModel.Field;
+import DomainModel.SportsCentre;
+import DomainModel.Staff;
 
 import java.sql.SQLException;
 import java.time.LocalDate;

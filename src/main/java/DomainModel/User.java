@@ -1,7 +1,8 @@
-package main.java.DomainModel;
+package DomainModel;
 
-import main.java.BusinessLogic.Observer;
-import main.java.DomainModel.Membership.Membership;
+import DomainModel.Membership.Membership;
+import BusinessLogic.Observer;
+import DomainModel.Membership.Membership;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;

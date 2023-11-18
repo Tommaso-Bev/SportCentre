@@ -1,7 +1,6 @@
-package main.java.DAO;
+package DAO;
 
-
-import main.java.DomainModel.Staff;
+import DomainModel.Staff;
 
 import java.sql.*;
 import java.time.LocalDate;

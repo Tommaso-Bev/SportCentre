@@ -1,5 +1,5 @@
-package main.java.DAO;
-import main.java.DomainModel.SportsCentre;
+package DAO;
+import DomainModel.SportsCentre;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ public class SportsCentreDAO implements DAO<SportsCentre> {
 
     @Override
     public SportsCentre get(int id) throws SQLException {
-        Connection connection= DriverManager.getConnection("jdbc:sqlite"+"sportCentre.sqlite");
+        Connection connection= DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         SportsCentre sportsCentre = null;
         PreparedStatement ps = connection.prepareStatement("SELECT * FROM sportsCentres WHERE ID = ?");
         ps.setInt(1, id);

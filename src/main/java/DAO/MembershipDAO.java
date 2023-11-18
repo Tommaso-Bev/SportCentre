@@ -1,29 +1,29 @@
-package main.java.DAO;
+package DAO;
 
-import main.java.DomainModel.Membership.*;
-import main.java.DomainModel.SportsCentre;
+import DomainModel.Membership.*;
+import DomainModel.SportsCentre;
 
 import java.sql.*;
 import java.util.ArrayList;
 
 public class MembershipDAO {
     public Membership get(String name) throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:sqlite" + "sportCentre.sqlite");
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         Membership membership = null;
         PreparedStatement ps = connection.prepareStatement("SELECT * FROM memberships WHERE name = ?");
         ps.setString(1, name);
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
-            if (rs.getString("type").equals("Free")) {
+            if (rs.getString("name").equals("Free")) {
                 membership=new Free();
             }
-            if (rs.getString("type").equals("Basic")) {
+            if (rs.getString("name").equals("Basic")) {
                 membership=new Basic(new Free());
             }
-            if (rs.getString("type").equals("Premium")) {
+            if (rs.getString("name").equals("Premium")) {
                 membership=new Premium(new Basic(new Free()));
             }
-            if (rs.getString("type").equals("Student")) {
+            if (rs.getString("name").equals("Student")) {
                 membership=new Student(new Basic(new Free()));
             }
         }
@@ -35,21 +35,21 @@ public class MembershipDAO {
 
 
     public ArrayList<Membership> getAll() throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         ArrayList<Membership> memberships = new ArrayList<>();
         PreparedStatement ps = connection.prepareStatement("SELECT * FROM memberships");
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            if (rs.getString("type").equals("Free")) {
+            if (rs.getString("name").equals("Free")) {
                 memberships.add(new Free());
             }
-            if (rs.getString("type").equals("Basic")) {
+            if (rs.getString("name").equals("Basic")) {
                 memberships.add(new Basic(new Free()));
             }
-            if (rs.getString("type").equals("Premium")) {
+            if (rs.getString("name").equals("Premium")) {
                 memberships.add(new Premium(new Basic(new Free())));
             }
-            if (rs.getString("type").equals("Student")) {
+            if (rs.getString("name").equals("Student")) {
                 memberships.add(new Student(new Basic(new Free())));
             }
         }
@@ -60,8 +60,8 @@ public class MembershipDAO {
     }
 
     public void save(Membership membership) throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
-        PreparedStatement ps = connection.prepareStatement("INSERT INTO memberships (name, cost, description, expirationDate, timeBeforeReserve, timeBeforeDelete, discount) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
+        PreparedStatement ps = connection.prepareStatement("INSERT INTO memberships (name, cost, description, timeBeforeReserve, timeBeforeDelete, discount) VALUES (?, ?, ?, ?, ?, ?)");
         ps.setString(1, membership.getType());
         ps.setFloat(2, membership.getCost());
         ps.setString(3, membership.getDescription());
@@ -75,7 +75,7 @@ public class MembershipDAO {
 
 
     public void remove(String name) throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         PreparedStatement ps = connection.prepareStatement("DELETE FROM memberships WHERE name = ?");
         ps.setString(1, name);
         ps.executeUpdate();

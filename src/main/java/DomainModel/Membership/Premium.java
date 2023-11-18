@@ -1,4 +1,4 @@
-package main.java.DomainModel.Membership;
+package DomainModel.Membership;
 
 public class Premium extends DecoratorMembership {
 

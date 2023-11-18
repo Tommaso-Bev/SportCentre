@@ -1,18 +1,14 @@
-package main.java.BusinessLogic;
+package BusinessLogic;
 
-import main.java.DAO.FieldDAO;
-import main.java.DAO.StaffDAO;
-import main.java.DomainModel.Booking;
-import main.java.DomainModel.Field;
-import main.java.DomainModel.SportsCentre;
-import main.java.DomainModel.Staff;
+import DAO.FieldDAO;
+import DAO.StaffDAO;
+import DomainModel.Booking;
+import DomainModel.Field;
+import DomainModel.Staff;
 
-import java.sql.Date;
 import java.sql.SQLException;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Random;
 

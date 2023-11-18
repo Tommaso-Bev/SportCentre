@@ -1,4 +1,4 @@
-package main.java.DomainModel.Membership;
+package DomainModel.Membership;
 
 import java.time.LocalDate;
 

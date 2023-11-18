@@ -1,4 +1,4 @@
-package main.java.BusinessLogic;
+package BusinessLogic;
 
 import java.sql.SQLException;
 

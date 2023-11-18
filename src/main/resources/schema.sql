@@ -32,7 +32,6 @@ CREATE TABLE IF NOT EXISTS memberships(
     name TEXT PRIMARY KEY,
     cost REAL NOT NULL,
     description TEXT NOT NULL,
-    expirationDate TEXT NOT NULL,
     timeBeforeReserve INTEGER NOT NULL,
     timeBeforeDelete INTEGER NOT NULL,
     discount INTEGER NOT NULL
@@ -63,7 +62,7 @@ CREATE TABLE IF NOT EXISTS fields(
 
 -- Table: bookings
 CREATE TABLE IF NOT EXISTS bookings(
-    ID INTEGER PRIMARY KEY,
+    ID INTEGER,
     date TEXT NOT NULL,
     time TEXT NOT NULL ,
     payed INTEGER NOT NULL CHECK(payed IN (0, 1)),

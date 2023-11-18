@@ -1,4 +1,4 @@
-package main.java.DomainModel;
+package DomainModel;
 
 public class SportsCentre {
     private int ID;

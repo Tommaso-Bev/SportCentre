@@ -1,4 +1,4 @@
-package main.java.DomainModel;
+package DomainModel;
 
 public class Field {
     public Field(int ID, String sport, int minimumPeopleRequired, int maximumPeopleRequired, int fineph, boolean availability, SportsCentre centre) {

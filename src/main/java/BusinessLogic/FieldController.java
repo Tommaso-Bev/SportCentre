@@ -1,9 +1,9 @@
-package main.java.BusinessLogic;
+package BusinessLogic;
 
-import main.java.DAO.BookingDAO;
-import main.java.DAO.FieldDAO;
-import main.java.DomainModel.Field;
-import main.java.DomainModel.SportsCentre;
+import DAO.BookingDAO;
+import DAO.FieldDAO;
+import DomainModel.Field;
+import DomainModel.SportsCentre;
 
 import java.sql.SQLException;
 

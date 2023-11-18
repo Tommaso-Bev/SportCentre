@@ -1,4 +1,4 @@
-package main.java.DomainModel;
+package DomainModel;
 
 public abstract class Person {
     private int ID;
