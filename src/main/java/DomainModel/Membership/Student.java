@@ -19,7 +19,7 @@ public class Student extends DecoratorMembership {
 
     @Override
     public int getTimeBeforeDelete() {
-        return 5;
+        return 2;
     }
 
     @Override

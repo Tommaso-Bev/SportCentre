@@ -42,7 +42,7 @@ public class MembershipPackTest {
         Membership s = new Student(b);
         Assertions.assertEquals("Student",s.getType());
         Assertions.assertEquals(5,s.getTimeBeforeReserve());
-        Assertions.assertEquals(5,s.getTimeBeforeDelete());
+        Assertions.assertEquals(2,s.getTimeBeforeDelete());
         Assertions.assertEquals(11,s.getCost());
         Assertions.assertEquals(25,s.getDiscount());
     }
@@ -53,7 +53,7 @@ public class MembershipPackTest {
         Membership p = new Premium(b);
         Assertions.assertEquals("Premium",p.getType());
         Assertions.assertEquals(10,p.getTimeBeforeReserve());
-        Assertions.assertEquals(10,p.getTimeBeforeDelete());
+        Assertions.assertEquals(2,p.getTimeBeforeDelete());
         Assertions.assertEquals(16,p.getCost());
         Assertions.assertEquals(20,p.getDiscount());
     }

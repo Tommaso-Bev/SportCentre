@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS fields(
     minimumPeopleRequired INTEGER NOT NULL,
     maximumPeopleRequired INTEGER NOT NULL,
     fineph INTEGER NOT NULL,
-    availability INTEGER NOT NULL CHECK(availability IN (0, 1)), -- 0 = not available, 1 = available  TODO verificare che non dia problemi in seguito con la conversione da int a bool
+    availability INTEGER NOT NULL CHECK(availability IN (0, 1)), -- 0 = not available, 1 = available
     sportCentre INTEGER NOT NULL,
     FOREIGN KEY (sportCentre) REFERENCES sportsCentres(ID) ON DELETE CASCADE
 );

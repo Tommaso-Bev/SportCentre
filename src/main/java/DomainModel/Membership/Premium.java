@@ -19,7 +19,7 @@ public class Premium extends DecoratorMembership {
 
     @Override
     public int getTimeBeforeDelete() {
-        return 10;
+        return 2;
     }
 
     @Override
