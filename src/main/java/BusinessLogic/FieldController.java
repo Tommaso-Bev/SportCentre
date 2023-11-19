@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class FieldController {
     private FieldDAO fd;
 
-    public FieldController(BookingDAO bd, FieldDAO fd, SportsCentreController sc) {
+    public FieldController(FieldDAO fd) {
         this.fd = fd;
     }
 

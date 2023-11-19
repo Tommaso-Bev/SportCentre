@@ -17,7 +17,7 @@ public class StaffController {
         this.sc = sc;
         this.bc = bc;
         this.sd = sd;
-        this.fd=fd;
+        this.fd = fd;
     }
 
     public void hireStaff(Staff staff) throws SQLException {
@@ -34,55 +34,40 @@ public class StaffController {
     }
 
     public String removeBooking(int id) throws SQLException {
-        Random choice=new Random();
-        switch (choice.nextInt(1)){
-            default:
-                bc.removeBooking(id);
-            case 0:
-                return "There's been a problem with your booking so it has to be rearranged";
-            case 1:
-                return "There's been an unexpected problem with your field, if you can, change it, the booking has been canceled";
-        }
+        bc.removeBooking(id);
+        return "a";
     }
 
     public String removeBookingsPerDate(LocalDate date, Field field) throws SQLException {
-        Random choice=new Random();
-        ArrayList<Booking> toRemove=bc.getBookingsForDate(date);
-        for (Booking booking : toRemove) bc.removeBooking(booking.getID());
-        return switch (choice.nextInt(1)) {
-            case 0 -> "Because of technical reasons the date selected cannot be used";
-            case 1 -> "Because of a problem with the fields in this date the faculty cannot be used";
-            default -> null;
-        };
+        Random choice = new Random();
+        ArrayList<Booking> toRemove = bc.getBookingsForDate(date);
+        for (Booking booking : toRemove)
+            bc.removeBooking(booking.getID());
+        return "a";
     }
 
     public String removeBookingsPerTime(LocalDate date, LocalTime time, Field field) throws SQLException {
-        Random choice=new Random();
-        ArrayList<Booking> toRemove=bc.getBookingsForDate(date);
+        Random choice = new Random();
+        ArrayList<Booking> toRemove = bc.getBookingsForDate(date);
         for (Booking booking : toRemove)
-            if (booking.getTime() == time & booking.getField()==field)
+            if (booking.getTime() == time & booking.getField() == field)
                 bc.removeBooking(booking.getID());
-        return switch (choice.nextInt(1)) {
-            case 0 -> "Because of technical reasons the date selected cannot be used";
-            case 1 -> "Because of a problem with the field in this date and time the faculty cannot be used";
-            default -> null;
-        };
+
+        return "a";
     }
 
     public boolean checkForPayment(int id) throws SQLException {
         return bc.getBooking(id).isPayed();
     }
 
-    public void unavailableField(Field field, LocalDate date) throws SQLException
-    {
-        fd.habilitateField(field.getId(),false);
-        removeBookingsPerDate(date,field);
-    }
-    public void availableField(Field field) throws SQLException
-    {
-        fd.habilitateField(field.getId(),true);
+    public void unavailableField(Field field, LocalDate date) throws SQLException {
+        fd.habilitateField(field.getId(), false);
+        removeBookingsPerDate(date, field);
     }
 
+    public void availableField(Field field) throws SQLException {
+        fd.habilitateField(field.getId(), true);
+    }
 
 
     private SportsCentreController sc;

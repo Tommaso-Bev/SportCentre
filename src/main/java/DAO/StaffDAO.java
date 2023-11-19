@@ -21,7 +21,7 @@ public class StaffDAO implements DAO<Staff> {
         prepStat.setInt(1, id);
         ResultSet resSet = prepStat.executeQuery();
         if (resSet.next()) {
-            staff = new Staff(id, resSet.getString("codFisc"), resSet.getString("firstName"), resSet.getString("surname"), LocalDate.parse(resSet.getString("hiringDate")), resSet.getString("task"), resSet.getInt("salary"), sportsCentreDAO.get(resSet.getInt("sportCentre")));
+            staff = new Staff(id, resSet.getString("codFisc"), resSet.getString("firstName"), resSet.getString("surname"), LocalDate.parse(resSet.getString("hiringDate")), resSet.getString("task"), resSet.getInt("salary"), sportsCentreDAO.get(resSet.getInt("sportsCentresID")));
         }
         resSet.close();
         prepStat.close();
@@ -36,7 +36,7 @@ public class StaffDAO implements DAO<Staff> {
         PreparedStatement ps = connection.prepareStatement("SELECT * FROM staff");
         ResultSet resSet = ps.executeQuery();
         while (resSet.next()) {
-            staff.add(new Staff(resSet.getInt("ID"), resSet.getString("codFisc"), resSet.getString("firstName"), resSet.getString("surname"), LocalDate.parse(resSet.getString("hiringDate")), resSet.getString("task"), resSet.getInt("salary"), sportsCentreDAO.get(resSet.getInt("sportCentre"))));
+            staff.add(new Staff(resSet.getInt("ID"), resSet.getString("codFisc"), resSet.getString("firstName"), resSet.getString("surname"), LocalDate.parse(resSet.getString("hiringDate")), resSet.getString("task"), resSet.getInt("salary"), sportsCentreDAO.get(resSet.getInt("sportsCentresID"))));
         }
         resSet.close();
         ps.close();
@@ -49,13 +49,14 @@ public class StaffDAO implements DAO<Staff> {
     public void save(Staff staff) throws SQLException {
         Connection connection = DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         PreparedStatement ps = connection.prepareStatement("INSERT INTO staff (ID, codFisc, firstName,surname, hiringDate, task, salary,sportsCentresID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        ps.setInt(1, getNextId());
-        ps.setString(2, staff.getName());
-        ps.setString(3, staff.getSurname());
-        ps.setString(4, staff.getCodFisc());
-        ps.setString(5, staff.getTask());
-        ps.setInt(6, staff.getSalary());
-        ps.setInt(7, staff.getSportsCentre().getId());
+        ps.setInt(1, staff.getID());
+        ps.setString(2,staff.getCodFisc());
+        ps.setString(3, staff.getName());
+        ps.setString(4, staff.getSurname());
+        ps.setString(5, staff.getHiringDate().toString());
+        ps.setString(6, staff.getTask());
+        ps.setInt(7, staff.getSalary());
+        ps.setInt(8, staff.getSportsCentre().getId());
         ps.executeUpdate();
         ps.close();
         connection.close();
