@@ -38,19 +38,18 @@ public class StaffController {
         return "a";
     }
 
-    public String removeBookingsPerDate(LocalDate date, Field field) throws SQLException {
-        Random choice = new Random();
+    public String removeBookingsPerDate(LocalDate date) throws SQLException {
         ArrayList<Booking> toRemove = bc.getBookingsForDate(date);
-        for (Booking booking : toRemove)
+        for (Booking booking : toRemove) {
             bc.removeBooking(booking.getID());
+        }
         return "a";
     }
 
     public String removeBookingsPerTime(LocalDate date, LocalTime time, Field field) throws SQLException {
-        Random choice = new Random();
-        ArrayList<Booking> toRemove = bc.getBookingsForDate(date);
+        ArrayList<Booking> toRemove = bc.getBookingsPerDateAndTime(date, time);
         for (Booking booking : toRemove)
-            if (booking.getTime() == time & booking.getField() == field)
+            if (booking.getField().getId() == field.getId())
                 bc.removeBooking(booking.getID());
 
         return "a";
@@ -62,7 +61,7 @@ public class StaffController {
 
     public void unavailableField(Field field, LocalDate date) throws SQLException {
         fd.habilitateField(field.getId(), false);
-        removeBookingsPerDate(date, field);
+        removeBookingsPerDate(date);
     }
 
     public void availableField(Field field) throws SQLException {

@@ -38,7 +38,7 @@ public class StaffControllerTest {
     private String date;
     private String time;
 
-    private SportsCentre scentre=new SportsCentre(1,"n","v","501234","no");
+    private SportsCentre scentre = new SportsCentre(1, "n", "v", "501234", "no");
 
     @BeforeAll
     public static void setUpBeforeAll() throws ClassNotFoundException, IOException, SQLException {
@@ -76,28 +76,55 @@ public class StaffControllerTest {
         connection.prepareStatement("INSERT INTO fields (id, sport, minimumPeopleRequired, maximumPeopleRequired, fineph, availability, sportCentre) VALUES (1, 'sport1', 4, 8, 15, 1, 1)").executeUpdate();
         connection.prepareStatement("INSERT INTO users (ID, codFisc, firstName, surname, inscriptionDate, membershipsName ) VALUES (1, 'codFisc1', 'name1', 'surname1','" + this.date + "', 'Basic')").executeUpdate();
         connection.prepareStatement("INSERT INTO bookings (ID, date, time, payed, users, field) VALUES (1, '" + this.date + "', '" + this.time + "', 0, 1, 1)").executeUpdate();
-        connection.prepareStatement("INSERT INTO bookings (ID, date, time, payed, users, field) VALUES (2, '" + LocalDate.now() + "', '" + LocalTime.now() + "', 1, 2, 2)").executeUpdate();
+        connection.prepareStatement("INSERT INTO bookings (ID, date, time, payed, users, field) VALUES (2, '" + LocalDate.now() + "', '" + LocalTime.now() + "', 1, 1, 2)").executeUpdate();
 
         connection.close();
     }
 
     @Test
     public void testHire() throws SQLException {
-        Staff staff=new Staff(1,"a","a","a",LocalDate.now(),"a",100, scentre);
+        Staff staff = new Staff(1, "a", "a", "a", LocalDate.now(), "a", 100, scentre);
         Assertions.assertDoesNotThrow(() -> sc.hireStaff(staff));
-        Assertions.assertEquals(1,sd.getAll().size());
+        Assertions.assertEquals(1, sd.getAll().size());
     }
 
     @Test
     public void testFire() throws SQLException {
-        sc.hireStaff(new Staff(1,"a","a","a",LocalDate.now(),"a",100, scentre));
+        sc.hireStaff(new Staff(1, "a", "a", "a", LocalDate.now(), "a", 100, scentre));
         Assertions.assertDoesNotThrow(() -> sc.fireStaff(1));
-        Assertions.assertEquals(0,sd.getAll().size());
+        Assertions.assertEquals(0, sd.getAll().size());
     }
 
     @Test
     public void testRemove() throws SQLException {
-        Assertions.assertDoesNotThrow(()->sc.removeBooking(1));
-        Assertions.assertEquals(1,bd.getAll().size());
+        Assertions.assertDoesNotThrow(() -> sc.removeBooking(1));
+        Assertions.assertEquals(1, bd.getAll().size());
     }
+
+    @Test
+    public void testRemoveBookingsPerDate() throws SQLException {
+        Assertions.assertEquals(2, bd.getAll().size());
+        Assertions.assertDoesNotThrow(() -> sc.removeBookingsPerDate(LocalDate.parse(this.date)));
+        Assertions.assertEquals(0, bd.getAll().size());
+    }
+
+    @Test
+    public void testRemoveBookingsPerTime() throws SQLException {
+        Assertions.assertDoesNotThrow(() -> sc.removeBookingsPerTime(LocalDate.parse(this.date), LocalTime.parse(this.time), fieldDAO.get(1)));
+        Assertions.assertEquals(1, bd.getAll().size());
+    }
+    @Test
+    public void testCheckPayment() throws SQLException {
+        Assertions.assertDoesNotThrow(()->sc.checkForPayment(1));
+        Assertions.assertTrue(sc.checkForPayment(2));
+        Assertions.assertFalse(sc.checkForPayment(1));
+    }
+    @Test
+    public void testEnableField() throws SQLException {
+        Assertions.assertDoesNotThrow(()->sc.unavailableField(fieldDAO.get(1), LocalDate.parse(this.date)));
+        Assertions.assertEquals(0, bd.getAll().size());
+        Assertions.assertDoesNotThrow(()->sc.availableField(fieldDAO.get(1)));
+    }
+
+
 }

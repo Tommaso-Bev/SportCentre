@@ -83,6 +83,10 @@ public class BookingController implements Subject{
         return bD.getBookingsForDate(date);
     }
 
+    public ArrayList<Booking> getBookingsPerDateAndTime(LocalDate date, LocalTime time) throws SQLException{
+        return bD.getBookingsForDateAndTime(date,time);
+    }
+
     @Override
     public void notifyobservers(int IDUser,String message)throws  SQLException {
         User observer= uD.get(IDUser);

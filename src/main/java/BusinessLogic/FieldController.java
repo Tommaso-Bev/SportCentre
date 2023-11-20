@@ -23,10 +23,6 @@ public class FieldController {
         fd.remove(id);
     }
 
-    public void habilitateOrRehabilitateField(int id, boolean abOrRehab) throws SQLException {
-        fd.habilitateField(id, abOrRehab);
-    }
-
     public Field getField(int id) throws SQLException {
         return fd.get(id);
     }
