@@ -33,7 +33,7 @@ public class BookingController implements Subject{
         if(!field.getAvailability()) { throw new IllegalArgumentException("Field not available"); }
         booking.setID(bD.getNextId());
         bD.save(booking);
-        notifyobservers(user.getID(), "the booking was successful, you have to pay: "+ getPrice((int) booking.getPeriod(),user,field)+"$");
+        notifyobservers(user.getID(), "the booking was successful, the cost is: "+ getPrice((int) booking.getPeriod(),user,field)+"$");
     }
 
     public float getPrice(int period, User user, Field field ) throws SQLException {
