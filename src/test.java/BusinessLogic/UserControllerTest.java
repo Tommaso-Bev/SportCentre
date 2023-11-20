@@ -100,9 +100,9 @@ public class UserControllerTest {
         Membership m4 = new Premium(m2);
         membershipDAO.save(m4);
 
-        sportsCentre1=new SportsCentre(1, "SportCentre1", "address1","CAP1","NONE");
-        user1=new User(4, "codFisc4", "name4", "surname4",LocalDate.parse(this.date), m4);
-        field1=new Field(4, "sport4", 3, 9, 25, true, sportsCentre1);
+        sportsCentre1 = new SportsCentre(1, "SportCentre1", "address1", "CAP1", "NONE");
+        user1 = new User(4, "codFisc4", "name4", "surname4", LocalDate.parse(this.date), m4);
+        field1 = new Field(4, "sport4", 3, 9, 25, true, sportsCentre1);
 
         connection.prepareStatement("INSERT INTO users (ID, codFisc, firstName, surname, inscriptionDate, membershipsName ) VALUES (1, 'codFisc1', 'name1', 'surname1','" + this.date + "', 'Basic')").executeUpdate();
         connection.prepareStatement("INSERT INTO users (ID, codFisc, firstName, surname, inscriptionDate, membershipsName ) VALUES (2, 'codFisc2', 'name2', 'surname2','" + LocalDate.now() + "', 'Student')").executeUpdate();
@@ -112,7 +112,7 @@ public class UserControllerTest {
         connection.prepareStatement("INSERT INTO bookings (ID, date, time, payed, users, field) VALUES (2, '" + LocalDate.now() + "', '" + LocalTime.now() + "', 1, 2, 2)").executeUpdate();
         connection.prepareStatement("INSERT INTO bookings (ID, date, time, payed, users, field) VALUES (3, '" + LocalDate.now().plusDays(2) + "', '" + LocalTime.now().plusHours(5) + "', 0, 3, 3)").executeUpdate();
 
-        booking1=new Booking(1,LocalDate.parse(this.date), 2, LocalTime.parse(this.time), user1, field1);
+        booking1 = new Booking(1, LocalDate.parse(this.date), 2, LocalTime.parse(this.time), user1, field1);
         connection.close();
     }
 
@@ -121,37 +121,43 @@ public class UserControllerTest {
         Assertions.assertDoesNotThrow(() -> userController.subscribeMember(user1));
         Assertions.assertEquals(4, userDAO.getAll().size());
     }
+
     @Test
     public void testUnsubscribeMember() throws SQLException {
         Assertions.assertDoesNotThrow(() -> userController.unsubscribeMember(1));
         Assertions.assertEquals(2, userDAO.getAll().size());
     }
+
     @Test
     public void testGetMember() throws SQLException {
         userController.subscribeMember(user1);
         Assertions.assertEquals(userDAO.get(4).getID(), userController.getMember(4).getID());
     }
+
     @Test
     public void testChangeMembership() throws SQLException {
-        Assertions.assertDoesNotThrow(() -> userController.changeMembership(1,3));
+        Assertions.assertDoesNotThrow(() -> userController.changeMembership(1, 3));
         Assertions.assertEquals("Premium", userController.getMember(1).getMembershipName());
     }
+
     @Test
     public void testAddBooking() throws SQLException {
         userController.subscribeMember(user1);
         Assertions.assertDoesNotThrow(() -> userController.addBooking(booking1));
         Assertions.assertEquals(4, bookingDAO.getAll().size());
     }
+
     @Test
     public void testRemoveBooking() throws SQLException {
-        Assertions.assertDoesNotThrow(() -> userController.removeBooking(3,3));
+        Assertions.assertDoesNotThrow(() -> userController.removeBooking(3, 3));
         Assertions.assertEquals(2, bookingDAO.getAll().size());
     }
+
     @Test
     public void TestModifyBooking() throws SQLException {
-        LocalDate date1=LocalDate.now();
-        LocalTime time1=LocalTime.now().plusHours(5);
-        Assertions.assertDoesNotThrow(() -> userController.modifyBooking(3,date1,time1));
+        LocalDate date1 = LocalDate.now();
+        LocalTime time1 = LocalTime.now().plusHours(5);
+        Assertions.assertDoesNotThrow(() -> userController.modifyBooking(3, date1, time1));
         Assertions.assertEquals(date1, bookingDAO.get(3).getDate());
         Assertions.assertEquals(time1, bookingDAO.get(3).getTime());
 
