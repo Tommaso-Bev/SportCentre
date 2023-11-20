@@ -14,7 +14,7 @@ public class FieldDAO implements DAO<Field>{
 
     @Override
     public Field get(int id) throws SQLException {
-        Connection connection= DriverManager.getConnection("jdbc:sqlite:"+"sportCentre.sqlite");
+        Connection connection= DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         Field field=null;
         PreparedStatement prepStat=connection.prepareStatement("SELECT * FROM fields WHERE ID= ?");
         prepStat.setInt(1, id);
@@ -29,7 +29,7 @@ public class FieldDAO implements DAO<Field>{
     }
     @Override
     public ArrayList<Field> getAll() throws SQLException {
-        Connection connection= DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        Connection connection= DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         ArrayList<Field> fields = new ArrayList<>();
         PreparedStatement ps = connection.prepareStatement("SELECT * FROM fields");
         ResultSet rs = ps.executeQuery();
@@ -46,7 +46,7 @@ public class FieldDAO implements DAO<Field>{
 
     @Override
     public void save(Field field) throws SQLException {
-        Connection connection= DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        Connection connection= DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         PreparedStatement ps = connection.prepareStatement("INSERT INTO fields (ID, sport, minimumPeopleRequired,maximumPeopleRequired, fineph, availability, sportCentre) VALUES (?, ?, ?, ?, ?, ?, ?)");
         ps.setInt(1,field.getId());
         ps.setString(2, field.getSport());
@@ -61,19 +61,24 @@ public class FieldDAO implements DAO<Field>{
     }
 
     public void habilitateField(int id, boolean ab) throws SQLException {
-        Connection connection= DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        Connection connection= DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         PreparedStatement preparedStatement=connection.prepareStatement("UPDATE  fields SET availability=? WHERE ID=?");
-        preparedStatement.setBoolean(1,ab);
+        if (ab)
+            preparedStatement.setInt(1,1);
+        else
+            preparedStatement.setInt(1,0);
         preparedStatement.setInt(2,id);
+        preparedStatement.executeUpdate();
         preparedStatement.close();
         connection.close();
     }
 
     public void setFine(int id, int f) throws SQLException {
-        Connection connection= DriverManager.getConnection("jdbc:sqlite:" + "sportCentre.sqlite");
+        Connection connection= DriverManager.getConnection("jdbc:sqlite:sportCentre.sqlite");
         PreparedStatement preparedStatement=connection.prepareStatement("UPDATE  fields SET fineph=? WHERE ID=?");
         preparedStatement.setInt(1,f);
         preparedStatement.setInt(2,id);
+        preparedStatement.executeUpdate();
         preparedStatement.close();
         connection.close();
     }
@@ -110,7 +115,7 @@ public class FieldDAO implements DAO<Field>{
         String query = "SELECT MAX(ID) FROM fields";
         PreparedStatement statement = connection.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
-        int id; //TODO check if it works
+        int id;
         if(rs.next()){
             id = rs.getInt(1) + 1;
         }else {
