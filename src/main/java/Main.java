@@ -105,6 +105,10 @@ public class Main {
         } catch (Exception e){
             System.err.print(e.getMessage());
         }
-
+        try {
+            userController.addBooking(new Booking(1,LocalDate.now().plusDays(10),2,LocalTime.now(), user1, fieldDAO.get(1)));
+        } catch (Exception e){
+            System.err.print(e.getMessage());
+        }
     }
 }
